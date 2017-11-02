@@ -1,0 +1,34 @@
+.cart {
+    /*
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    */
+    width: 32px;
+    padding: 4px;
+    
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("../imgs/cart.png");
+}
+
+.cart .height_fix {
+    margin-top: 70%;
+}
+
+.col-md-2-r {
+    float:right;
+    width: 16.66666667%;
+}
+
+.cart .count {
+    position: relative;
+    font-size: 12px;
+    left: 20px;
+    top: 30%;
+    /*height: 100%;
+    */width: 100%;
+  
+    text-align: center;
+    margin-top: -16px;
