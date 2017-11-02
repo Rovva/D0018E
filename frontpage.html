@@ -2,28 +2,65 @@
 <html>
 <title>Basic frontpage design</title>
 <link rel="stylesheet" href="frontpage.css">
+<link rel="stylesheet" href="dropdown.css">
 <body>
 
 <div class="main">
 
 	<div class="banner">
-		BANNER
 	</div>
 	
-	<div class="current_page">
-		YOU ARE HERE
-	</div>
-	
-	<div class="navigation_menu">
-		NAVIGATION
-	</div>
-	
-	<div class="textbody">
-		TEXTBODY
+    <div class="navigationbar">
+    
+        <div class="navigationbar_dropdowns">
+        
+            <div class="dropdown">
+              <button class="firstdropbtn"><a class="firstdropbtn" href="#">Home</a></button>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn">Categories</button>
+              <div class="dropdown-content">
+                <a href="#">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+              </div>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="#">About ous</a></button>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="#">Contact</a></button>
+            </div>
+            
+            
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="#">Login</a></button>
+              <div class="dropdown-content">
+                <a href="#">Register</a>
+              </div>
+            </div>
+        
+        </div>        
+    </div>
+    
+	<div class="mainbody">
+    
+        <div class="mainborders">
+        
+            <p class="mainbody_text">TEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODY
+            TEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODY
+            TEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODYTEXTBODY
+            TEXTBODYTEXTBODYTEXTBODYTEXTBODY</p>
+        
+        </div>
+    
 	</div>
 	
 	<div class="footer">
-		FOOTER
+		<p class="copyright_text">&copy; Christoffer Rova 2017</p>
 	</div>
 
 </div>
