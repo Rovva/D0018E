@@ -1,0 +1,32 @@
+Backlog
+Complete the HTML + CSS design
+ - Frontpage
+ - Products page
+   - View individual product
+   - Review product
+ - About ous page
+ - Contact page
+ - Login page
+ - Register page
+ - Ordering page
+ - Shopping cart page
+
+Draft a database schema
+
+Setup mysqldatabase and PHP on school server
+
+PHP Programming
+ - Register user function
+ - Login function
+ - View products
+   - Show ratings
+   - Show reviews
+ - Admin area
+   - Manage users/employee/admins
+   - Add/Remove categories
+   - Add/Remove products
+   - Manage orders
+ - Contact form
+ - Review product
+ - Rate products
+ - Shopping cart functionality
