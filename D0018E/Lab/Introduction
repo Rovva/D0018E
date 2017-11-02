@@ -1,0 +1,41 @@
+Introduction
+	The purpose of this project is to develop a simple working webshop with a connection to a database. We will cover our work methods, database design as well as defining and analysing a few use cases along with users different roles.
+Executive summary
+	The purpose of this project is the making of a webshop, utilizing SQL and using MySQL or a MySQL fork.
+	The languages used to accomplish this are, HTML,PHP,JavaScript,SQL,CSS.
+	The tools used are one.com's webhostel and their standard DB, MariaDB.
+	The involved roles are, the Customer, and the Admin.
+	Mentioned scenarios include, adding a product to shopping cart, performed by the Customer. Adding a product to the website, performed by the Admin.
+
+User stories/roles
+	User case: #1
+		When the customer opens the site, they should be greeted by a campaign, and some products, these products are fetched from the database. If products are shown correctly, the db and website connection can be assumed to be working correctly.
+		The categories are also fetched from the DB and can thus be compared to test if the website is working properly.
+		If the customer is logged in, the shopping cart is stored in the DB.
+		If the customer is not logged in, the shopping cart is stored in the session.
+		These two scenarios can bring out problems that will require extensive testing.
+		Example: Customer is NOT logged in, and adds items to his shopping cart, the user logs in, and has a previous shopping cart already stored, which shopping cart takes priority? Will both shopping carts be remembered, or will the shopping carts merge?
+		Example: Customer adds a product to his shopping cart, customer modifies his session data, customer logs in. What will happen to the modified data? How will the DB handle it? What will the website display?
+		 
+	User case: #2
+		For this user case, there are a lot of scenarios that could go wrong which could make the customer dissatisfied and put off from visiting the site in the future, it is important that the customer gets meaningful error messages. It is better to display "Product could not be purchased due to unforeseen circumstances, please contact support", instead of the customer seeing something like "IndexOutOfBoundsException: 0, Size:0".
+		Example: Customer has a shopping cart of products and is logged out. Halfway through the checkout, the customer is disconnected from his internet. How does the site and DB handle this?
+
+System architecture
+	The languages that will be used for this project are, HTML, PHP, Javascript(jQuery,json), SQL, and CSS.
+	We are using MariaDB for our database, MariDB is an open source software fork of MySQL, developed by the creators of MySQL.
+	We are hosting our website on a webhotel provided by one.com{REF}[https://www.one.com/en/]
+
+Database schema
+	{IMAGE}
+Backlog
+	{IMAGE}
+Sprint 4
+	For our next sprint, we are planning on having a completely functional Registration & Login system. A working admin cms, a working Checkout system. 
+Testing approach
+	
+Limitations
+	Since we are using one.com as our host for our webshop, there are certain limitations to what we can do. For example if there is a problem with the traffic to the website, or the connection from the db to the website, there isnt anything that we as the admin can do to solve this issue other than to wait.
+	The website is hosted using one.com, which comes with its pro's and con's. Such as, All database access is for security reasons locked to their internal server. Another limitation is their caching, edits to the website's source may not directly show using a webbrowser.
+
+
