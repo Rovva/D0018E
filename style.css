@@ -4,7 +4,7 @@ body {
 
 div.main {
     background-color: #FFFFFF;
-    width: 870px;
+	width: 870px;
     min-height: 800px;
     margin: auto;
     border-width: 1px;
@@ -22,7 +22,7 @@ div.banner {
 }
 
 div.navigationbar {
-    width: 870px;
+	width: 870px;
     min-height: 25px;
     background-color: #505380;
     border-bottom-width: 1px;
@@ -35,7 +35,7 @@ div.navigationbar_dropdowns{
 }
 
 div.mainbody {
-    width: 830px;
+	width: 830px;
     min-height: 580px;
     height: 100%;
     background-color: #FFFFFF;
@@ -65,62 +65,62 @@ p.mainbody_text {
 }
 
 div.product_box {
-    margin: auto;
-    width: 95%;
-    height: 100px;
-    border-bottom-width: 1px;
-    border-bottom-style: dashed;
+	margin: auto;
+	width: 95%;
+	height: 100px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
 }
 
 div.product_text {
-    float: left;
+	float: left;
 }
 
 div.product_header {
-    font-size: 16px;
-    font-weight: bold;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 div.product_desc {
-    font-size: 12px;
+	font-size: 12px;
 
 }
 
 div.product_available {
-    margin-top: 27px;
-    font-size: 12px;
+	margin-top: 27px;
+	font-size: 12px;
 }
 
 div.product_id {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 div.product_price {
-    margin-left: 50px;
-    margin-right: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    float: right;
+	margin-left: 50px;
+	margin-right: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	float: right;
 }
 
 button.product_buy {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 img.thumb {
-    float: left;
-    width: 100px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+	float: left;
+	width: 100px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 div.product_img {
-    width: 120px;
-    display: block;
-    float: left;
-    margin-top: 5px;
-    margin-left: 5px;
-    margin-bottom: 5px;
+	width: 120px;
+	display: block;
+	float: left;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-bottom: 5px;
 }
 
 div.footer {
