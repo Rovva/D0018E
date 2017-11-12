@@ -84,7 +84,7 @@
            $get = $_GET['id'];
                         
            $sql = "SELECT $products.id, $manufacturer.name AS manufacturername, $products.name, 
-            $products.shortdesc, $products.cost, $products.stock, $products.manufacturer 
+            $products.longdesc, $products.cost, $products.stock, $products.manufacturer 
             FROM $products 
             LEFT JOIN $manufacturer ON $products.manufacturer = $manufacturer.id WHERE $products.id = $get";
                     $query = mysql_query($sql, $conn);
