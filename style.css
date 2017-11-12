@@ -81,6 +81,11 @@ div.product_header {
 	font-weight: bold;
 }
 
+.product_link {
+    color: #000000;
+    text-decoration: none;
+}
+
 div.product_desc {
 	font-size: 12px;
 
@@ -123,9 +128,45 @@ div.product_img {
 	margin-bottom: 5px;
 }
 
+div.productdetail_box {
+   	margin: auto;
+	width: 95%;
+    height: 400px;
+}
+
+div.productdetail_img{
+    height: 400px;
+    margin-right:  20px;
+    float: left;
+}
+
+div.productdetail_header {
+    width: 100%;
+    height: 30px;
+    font-weight: bold;
+}
+
+div.productdetail_desc {
+    height: 110px;
+    width: 550px;
+    float: left;
+    clear: right;
+}
+
+div.productdetail_bottom {
+}
+
+div.productdetail_stock {
+    float: left;
+}
+
+div.productdetail_price {
+    float: right;
+}
+
 div.loginbox {
     margin-left: 5px;
-    width:300px;
+    width: 300px;
     height: 100px;
 }
 .loginbox_button {

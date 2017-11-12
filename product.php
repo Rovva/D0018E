@@ -1,12 +1,11 @@
 <?php
-
     $category = "d0018e_categories";
     $orders = "d0018e_orders";
     $products = "d0018e_products";
     $carts = "d0018e_carts";
-
+    
     $manufacturer = "d0018e_manufacturers";
-
+    
     $dbhost = "localhost";
     $dbname = "skola";
     $dbusr = "skola";
@@ -19,10 +18,8 @@
         die('Could not establish a connection: ' . mysql_error());
     }
 ?>
-
 <!DOCTYPE html>
 <html>
-<head><meta charset="iso-8859-1"></head>
 <title>Basic frontpage design</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="dropdown.css">
@@ -44,7 +41,7 @@
             <div class="dropdown">
               <button class="dropbtn">Categories</button>
               <div class="dropdown-content">
-              <?php
+                <?php
                 $sql = "SELECT * FROM $category";
                             $out = mysql_query($sql, $conn);
                             if(!$out) { die('Could not fetch any data: ' . mysql_error()); }
@@ -80,33 +77,34 @@
         <div class="mainborders">
         
            <p class="mainbody_text">
-	   
-       <?php
-            $get = $_GET['cat'];
+           
+           
+           <?php
+           
+           $get = $_GET['id'];
                         
-            $sql = "SELECT $products.id, $manufacturer.name AS manufacturername, $products.name, 
+           $sql = "SELECT $products.id, $manufacturer.name AS manufacturername, $products.name, 
             $products.shortdesc, $products.cost, $products.stock, $products.manufacturer 
             FROM $products 
-            LEFT JOIN $manufacturer ON $products.manufacturer = $manufacturer.id WHERE category = $get";
+            LEFT JOIN $manufacturer ON $products.manufacturer = $manufacturer.id WHERE $products.id = $get";
                     $query = mysql_query($sql, $conn);
-                    if(!$query) { die('Could not fetch products: ' . mysql_error());}
+                    if(!$query) { die('Could not fetch product: ' . mysql_error());}
                     
                     while ($row = mysql_fetch_array($query)) {
-                        echo '      <form action="addtocart.php">
-                                  <div class="product_box">
-                                      <div class="product_img"><img src="img/mouse1.jpg" class="thumb"></div>
-                                      <div class="product_text">
-                                          <div class="product_header"><a class="product_link" href="product.php?id=' . $row['id'] . '">' . $row['manufacturername'] . ' - ' . $row['name'] . '</a></div>
-                                          <div class="product_desc">' . $row['shortdesc'] . '</div>
-                                          <div class="product_available">' . $row['stock'] . ' I lager</div>
-                                          <div class="product_id">Art. nr. ' . $row['id'] . '</div>
-                                      </div>
-                                      <div class="product_price">' . $row['cost'] . ':-&nbsp;<input type="button" class="product_buy" value="Buy"></div>
-                                  </div>
-                              </form>';
+                        
+                        echo '
+                    <form action="addtocart.php">
+                        <div class="productdetail_box">
+                            <div class="productdetail_img"><img width="210px" src="img/mouse1.jpg"></div>
+                            <div class="productdetail_header">' . $row['manufacturername'] . ' - ' . $row['name'] . '</div>
+                            <div class="productdetail_desc">' . $row['longdesc'] . '</div>
+                            <div class="productdetail_bottom"><div class="productdetail_stock">' . $row['stock'] . ' in stock</div><div class="productdetail_price">' . $row['cost'] . ':- <input type="button" value="Buy"></div></div>
+                        </div>
+                    </form>';
                     }
-       ?>
-	   
+           
+           ?>
+           
 	   </p>
         
         </div>
