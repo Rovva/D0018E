@@ -98,8 +98,8 @@
                                       <div class="product_text">
                                           <div class="product_header"><a class="product_link" href="product.php?id=' . $row['id'] . '">' . $row['manufacturername'] . ' - ' . $row['name'] . '</a></div>
                                           <div class="product_desc">' . $row['shortdesc'] . '</div>
-                                          <div class="product_available">' . $row['stock'] . ' I lager</div>
-                                          <div class="product_id">Art. nr. ' . $row['id'] . '</div>
+                                          <div class="product_available">' . $row['stock'] . ' in stock</div>
+                                          <div class="product_id">Product number. ' . $row['id'] . '</div>
                                       </div>
                                       <div class="product_price">' . $row['cost'] . ':-&nbsp;<input type="button" class="product_buy" value="Buy"></div>
                                   </div>
