@@ -70,7 +70,7 @@
     function add_item() {
         echo '                <form action="admin_categories.php" method="post">
                     Name: <input type="text" name="name">
-                    <input type="submit" name="add_finish" value="Add category">
+                    <input type="submit" name="add_finish" value="Add item">
                     </form>';
     }
     
@@ -79,7 +79,7 @@
         $sql = "INSERT INTO $table (name) VALUES ('$name')";
         $query = mysql_query($sql);
         if($query) {
-            echo 'Category has been added';
+            echo 'Item has been added';
         } else {
             echo 'Something went wrong: ' . mysql_error();
         }
@@ -115,7 +115,7 @@
     }
     
     function remove_item() {
-        echo'                 Are you sure you want to delete selected category?
+        echo'                 Are you sure you want to delete selected item?
                     <form action="admin_categories.php" method="post">
                     <input hidden="id" name="id" value="' . $_POST['id'] . '">
                     <input type="submit" name="remove_finish" value="Remove">
