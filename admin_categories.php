@@ -34,27 +34,9 @@
     
         <div class="navigationbar_dropdowns">
         
-            <div class="dropdown">
-              <button class="firstdropbtn"><a class="firstdropbtn" href="admin_index.html">Home</a></button>
-            </div>
-            
-            <div class="dropdown">
-              <button class="dropbtn">Manage site</button>
-              <div class="dropdown-content">
-                <a href="admin_categories.html">Categories</a>
-                <a href="admin_manufacturers.html">Manufacturers</a>
-                <a href="admin_products.html">Products</a>
-                <a href="admin_images.html">Images</a>
-              </div>
-            </div>
-            
-            <div class="dropdown">
-              <button class="dropbtn"><a class="dropbtn" href="admin_users.html">Manage users</a></button>
-            </div>
-            
-            <div class="dropdown">
-              <button class="dropbtn"><a class="dropbtn" href="admin_logout.html">Logout</a></button>
-            </div>
+        <?php
+        include("admin_menu.html");
+        ?>
         
         </div>        
     </div>
@@ -76,7 +58,7 @@
                 </tr>
                 <?php
                     
-                    $sql = "SELECT * FROM $categories";
+                    $sql = "SELECT * FROM $category";
                     $query = mysql_query($sql);
                     
                     while($row = mysql_fetch_array($query)) {
