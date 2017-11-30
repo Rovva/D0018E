@@ -1,3 +1,8 @@
+<?php
+include 'ServerSide/functions.php';
+include 'ServerSide/db_connect.php';
+sec_session_start();
+?>
 <!DOCTYPE html>
 <html>
 <title>Basic frontpage design</title>
@@ -41,6 +46,28 @@
               <div class="dropdown-content">
                 <a href="register.html">Register</a>
               </div>
+            </div>
+
+            <div class="shopping_cart">
+            <?php
+            if(login_check() == true){
+              $user_id = $_SESSION['user_id'];
+              $cart_id = $_SESSION['cart_id'];
+              $quantity1=0;
+              if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
+                $select_stmt->bind_param('s', $cart_id);
+                $select_stmt->execute();
+                $select_stmt->store_result();
+                $select_stmt->bind_result($quantity);
+                while($select_stmt->fetch()){
+                $quantity1=$quantity1+$quantity;
+                }
+                echo $quantity1 . ' items in the shopping basket';
+              }
+            }else{
+              echo 'Log in to use shopping cart';
+            }
+            ?>
             </div>
         
         </div>        
