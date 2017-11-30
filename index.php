@@ -1,7 +1,26 @@
+<?php
+    $category = "d0018e_categories";
+    $orders = "d0018e_orders";
+    $products = "d0018e_products";
+    $carts = "d0018e_carts";
+    
+    $manufacturer = "d0018e_manufacturers";
+    
+    $dbhost = "localhost";
+    $dbname = "skola";
+    $dbusr = "skola";
+    $dbpass = "skola";
+    global $conn;
+    $conn = mysql_connect($dbhost, $dbusr, $dbpass);
+    mysql_select_db($dbname);
+    mysql_set_charset("utf8", $conn);
+    if (!$conn) { 
+        die('Could not establish a connection: ' . mysql_error());
+    }
+?>
 <!DOCTYPE html>
 <html>
 <title>Basic frontpage design</title>
-<script src="ServerSide/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="dropdown.css">
 <body>
@@ -16,13 +35,21 @@
         <div class="navigationbar_dropdowns">
         
             <div class="dropdown">
-              <button class="firstdropbtn"><a class="firstdropbtn" href="index.html">Home</a></button>
+              <button class="firstdropbtn"><a class="firstdropbtn" href="index.php">Home</a></button>
             </div>
             
             <div class="dropdown">
               <button class="dropbtn">Categories</button>
               <div class="dropdown-content">
-                <a href="mouse.html">Mouse</a>
+                <?php
+                $sql = "SELECT * FROM $category";
+                            $out = mysql_query($sql, $conn);
+                            if(!$out) { die('Could not fetch any data: ' . mysql_error()); }
+
+                            while ($row = mysql_fetch_array($out)) {
+                                echo '<a href="browse.php?cat='.$row['id'].'">'.$row['name'].'</a>';
+                            }
+                ?>
               </div>
             </div>
             
@@ -49,20 +76,7 @@
     
         <div class="mainborders">
         
-           <p class="mainbody_text">
-	   
-	   <div class="product_box">
-	      <div class="product_img"><img src="img/mouse1.jpg" class="thumb"></div>
-	      <div class="product_text">
-	         <div class="product_header">Logitech MX Anywhere 2 Trådlös Mus</div>
-	         <div class="product_desc">unifying, bluetooth, uppladdningsbar, 5 knappar, 1600 dpi, laser mus</div>
-		 <div class="product_available">999+ I lager</div>
-	         <div class="product_id">Art. nr. 000001</div>
-	      </div>
-	      <div class="product_price">990:-&nbsp;<input type="submit" name="prod_id" class="product_buy" value="1"></div>
-        
-	   </div>
-	   
+           <p class="mainbody_text">Welcome to our webstore!
 	   </p>
         
         </div>

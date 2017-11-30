@@ -2,6 +2,7 @@
 <html>
 <title>Basic frontpage design</title>
 <script src="ServerSide/jquery-3.2.1.min.js"></script>
+<script src="ServerSide/jquery.js"></script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="dropdown.css">
 <body>
@@ -59,8 +60,10 @@
 		 <div class="product_available">999+ I lager</div>
 	         <div class="product_id">Art. nr. 000001</div>
 	      </div>
-	      <div class="product_price">990:-&nbsp;<input type="submit" name="prod_id" class="product_buy" value="1"></div>
-        
+	      <div class="product_price">990:-&nbsp;
+          <form action="serverSide/addtocart.php" method="post" name="addtocart">
+            <button type="submit" name="btnValue" id="btnValue" class="button" value="1">Buy</button></div>
+
 	   </div>
 	   
 	   </p>
@@ -76,4 +79,5 @@
 </div>
 
 </body>
+
 </html>

@@ -1,7 +1,10 @@
+<?php
+include 'serverside/functions.php';
+sec_session_start();
+if(login_check() == !true){ ?>
 <!DOCTYPE html>
 <html>
 <title>Basic frontpage design</title>
-<script src="ServerSide/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="dropdown.css">
 <body>
@@ -38,7 +41,7 @@
             <div class="dropdown">
               <button class="dropbtn"><a class="dropbtn" href="login.html">Login</a></button>
               <div class="dropdown-content">
-                <a href="register.html">Register</a>
+                <a href="register.php">Register</a>
               </div>
             </div>
         
@@ -50,20 +53,16 @@
         <div class="mainborders">
         
            <p class="mainbody_text">
-	   
-	   <div class="product_box">
-	      <div class="product_img"><img src="img/mouse1.jpg" class="thumb"></div>
-	      <div class="product_text">
-	         <div class="product_header">Logitech MX Anywhere 2 Trådlös Mus</div>
-	         <div class="product_desc">unifying, bluetooth, uppladdningsbar, 5 knappar, 1600 dpi, laser mus</div>
-		 <div class="product_available">999+ I lager</div>
-	         <div class="product_id">Art. nr. 000001</div>
-	      </div>
-	      <div class="product_price">990:-&nbsp;<input type="submit" name="prod_id" class="product_buy" value="1"></div>
-        
-	   </div>
-	   
-	   </p>
+           <div class="loginbox">
+		      <form action="serverSide/process_login.php" method="post" name="login_form">
+            <label for="inputEmail">Email</label>
+            <input type="text" id="email" name="email"placeholder="Email">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password">
+           <button type="submit">Login</button>
+              </form>
+           </div>
+	       </p>
         
         </div>
     
@@ -77,3 +76,8 @@
 
 </body>
 </html>
+<?php } else {
+header("Location: ./user_page.php");;
+}
+
+;?>

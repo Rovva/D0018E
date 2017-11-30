@@ -37,7 +37,7 @@
             <div class="dropdown">
               <button class="dropbtn"><a class="dropbtn" href="login.html">Login</a></button>
               <div class="dropdown-content">
-                <a href="register.html">Register</a>
+                <a href="register.php">Register</a>
               </div>
             </div>
         
@@ -50,12 +50,13 @@
         
            <p class="mainbody_text">
            <div class="loginbox">
-		      <form action="">
+		      <form action="serverSide/login.php" method="post" name="login_form">
 			     <div class="loginbox_text>">Email</div>
-                 <div class="loginbox_input"><input type="email" name="email"></div>
+                 <input type="text" id="email" name="email"placeholder="Email">
                  <div class="loginbox_text">Password</div>
                  <div class="loginbox_input"><input type="password" name="password"></div>
-			     <input class="loginbox_button" type="button" value="Login">
+			     <input type="password" name="password" id="password" placeholder="Password">
+           <button type="submit">Login</button>
               </form>
            </div>
 	       </p>

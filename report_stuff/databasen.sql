@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema chrrov5db
+-- Schema skola
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema chrrov5db
+-- Schema skola
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `chrrov5db` DEFAULT CHARACTER SET utf8 ;
-USE `chrrov5db` ;
+CREATE SCHEMA IF NOT EXISTS `skola` DEFAULT CHARACTER SET utf8 ;
+USE `skola` ;
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_users`
+-- Table `skola`.`d0018e_users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_users` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_users` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_users` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_users` (
   `id` INT(11) NOT NULL,
   `login` VARCHAR(32) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
   `password` VARCHAR(16) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_users` (
   INDEX `cart_id_idx` (`cart_id` ASC),
   CONSTRAINT `cart_id`
     FOREIGN KEY (`cart_id`)
-    REFERENCES `chrrov5db`.`d0018e_carts` (`id`)
+    REFERENCES `skola`.`d0018e_carts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -51,11 +51,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_carts`
+-- Table `skola`.`d0018e_carts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_carts` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_carts` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_carts` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_carts` (
   `id` INT(11) NOT NULL,
   `creation_date` INT(11) NULL DEFAULT NULL,
   `user_id` INT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_carts` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   CONSTRAINT `user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `chrrov5db`.`d0018e_users` (`id`)
+    REFERENCES `skola`.`d0018e_users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -73,11 +73,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_categories`
+-- Table `skola`.`d0018e_categories`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_categories` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_categories` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_categories` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_categories` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
   `num_Products` INT(5) NULL DEFAULT NULL,
@@ -88,11 +88,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_manufacturers`
+-- Table `skola`.`d0018e_manufacturers`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_manufacturers` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_manufacturers` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_manufacturers` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_manufacturers` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(32) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
   `url` VARCHAR(64) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
@@ -104,11 +104,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_products`
+-- Table `skola`.`d0018e_products`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_products` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_products` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_products` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_products` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
   `cost` INT(11) NULL DEFAULT NULL,
@@ -125,12 +125,12 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_products` (
   UNIQUE INDEX `prod_id_UNIQUE` (`id` ASC),
   CONSTRAINT `category`
     FOREIGN KEY (`category`)
-    REFERENCES `chrrov5db`.`d0018e_categories` (`id`)
+    REFERENCES `skola`.`d0018e_categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `manufacturer`
     FOREIGN KEY (`manufacturer`)
-    REFERENCES `chrrov5db`.`d0018e_manufacturers` (`id`)
+    REFERENCES `skola`.`d0018e_manufacturers` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -139,11 +139,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_cart_details`
+-- Table `skola`.`d0018e_cart_details`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_cart_details` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_cart_details` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_cart_details` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_cart_details` (
   `id` INT(11) NOT NULL,
   `cart` INT(11) NULL DEFAULT NULL,
   `prod` INT(11) NULL DEFAULT NULL,
@@ -153,12 +153,12 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_cart_details` (
   UNIQUE INDEX `prod_id_idx` (`prod` ASC),
   CONSTRAINT `cart`
     FOREIGN KEY (`cart`)
-    REFERENCES `chrrov5db`.`d0018e_carts` (`id`)
+    REFERENCES `skola`.`d0018e_carts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `prod`
     FOREIGN KEY (`prod`)
-    REFERENCES `chrrov5db`.`d0018e_products` (`id`)
+    REFERENCES `skola`.`d0018e_products` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -167,11 +167,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_orders`
+-- Table `skola`.`d0018e_orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_orders` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_orders` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_orders` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_orders` (
   `id` INT(11) NOT NULL,
   `user` INT(11) NULL DEFAULT NULL,
   `status` VARCHAR(16) CHARACTER SET 'utf8' COLLATE 'utf8_swedish_ci' NULL DEFAULT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_orders` (
   INDEX `user_id_idx` (`user` ASC),
   CONSTRAINT `user`
     FOREIGN KEY (`user`)
-    REFERENCES `chrrov5db`.`d0018e_users` (`id`)
+    REFERENCES `skola`.`d0018e_users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -191,11 +191,11 @@ COLLATE = utf8_swedish_ci;
 
 
 -- -----------------------------------------------------
--- Table `chrrov5db`.`d0018e_order_details`
+-- Table `skola`.`d0018e_order_details`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `chrrov5db`.`d0018e_order_details` ;
+DROP TABLE IF EXISTS `skola`.`d0018e_order_details` ;
 
-CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_order_details` (
+CREATE TABLE IF NOT EXISTS `skola`.`d0018e_order_details` (
   `id` INT(11) NOT NULL,
   `order_id` INT(11) NULL DEFAULT NULL,
   `prod_id` INT(11) NULL DEFAULT NULL,
@@ -205,12 +205,12 @@ CREATE TABLE IF NOT EXISTS `chrrov5db`.`d0018e_order_details` (
   INDEX `prod_id_idx` (`prod_id` ASC),
   CONSTRAINT `order_id`
     FOREIGN KEY (`order_id`)
-    REFERENCES `chrrov5db`.`d0018e_orders` (`id`)
+    REFERENCES `skola`.`d0018e_orders` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `prod_id`
     FOREIGN KEY (`prod_id`)
-    REFERENCES `chrrov5db`.`d0018e_products` (`id`)
+    REFERENCES `skola`.`d0018e_products` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
