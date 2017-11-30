@@ -1,7 +1,7 @@
 <?php
 function login_check() {
    // Check if all session variables are set
-  $mysqli = new mysqli("localhost", "root", "", "skola");
+  $mysqli = new mysqli("localhost", "skola", "skola", "skola");
    if(isset($_SESSION['user_id'], $_SESSION['email'], $_SESSION['login_string'])) {
      $user_id = $_SESSION['user_id'];
      $login_string = $_SESSION['login_string'];
@@ -50,9 +50,13 @@ function sec_session_start() {
 }
 
 function login($email,$password){
-  $mysqli = new mysqli("localhost", "root", "", "skola");
+  $mysqli = new mysqli("localhost", "skola", "skola", "skola");
   $email = $_POST['email'];
   $password = $_POST['password'];
+  if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+  }
   if($stmt = $mysqli->prepare("SELECT id, email, password FROM d0018e_users WHERE email = ? LIMIT 1")){
     $stmt->bind_param('s', $email);
     $stmt->execute();

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<form action="serverSide/register.php" method="post" name="registration_form">
+	<form action="ServerSide/register.php" method="post" name="registration_form">
 		<label for="inputEmail">Email</label>
 			<input type="text" id="email" name="email"placeholder="Email">
 		<label for="firstName">First Name</label>

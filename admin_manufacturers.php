@@ -11,11 +11,11 @@
     $dbusr = "skola";
     $dbpass = "skola";
     global $conn;
-    $conn = mysql_connect($dbhost, $dbusr, $dbpass);
-    mysql_select_db($dbname);
-    mysql_set_charset("utf8", $conn);
+    $conn = mysqli_connect($dbhost, $dbusr, $dbpass);
+    mysqli_select_db($dbname);
+    mysqli_set_charset("utf8", $conn);
     if (!$conn) { 
-        die('Could not establish a connection: ' . mysql_error());
+        die('Could not establish a connection: ' . mysqli_error());
     }
     
     function list_items($table) {
@@ -31,8 +31,8 @@
                 </tr>';
         
         $sql = "SELECT * FROM $table";
-        $query = mysql_query($sql);
-        while($row = mysql_fetch_array($query)) {
+        $query = mysqli_query($sql);
+        while($row = mysqli_fetch_array($query)) {
             echo '                <tr>
                     <form action="admin_manufacturers.php" method="post">
                         <input type="hidden" name="id" value="' . $row['id'] . '">
@@ -72,20 +72,20 @@
         $name = $_POST['name'];
         $url = $_POST['url'];
         $sql = "INSERT INTO $table (name, url) VALUES ('$name', '$url')";
-        $query = mysql_query($sql);
+        $query = mysqli_query($sql);
         if($query) {
             echo 'Item has been added';
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Something went wrong: ' . mysqli_error();
         }
     }
     
     function edit_item($table) {
         $id = $_POST['id'];
         $sql = "SELECT id, name, url FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
+        $query = mysqli_query($sql);
 
-        while($row = mysql_fetch_array($query)) {
+        while($row = mysqli_fetch_array($query)) {
         echo '                <form action="admin_manufacturers.php" method="post">
                     <input type="hidden" name="id" value="' . $row['id'] . '">
                     Name: <input type="text" name="name" value="' . $row['name'] . '"><br>
@@ -101,11 +101,11 @@
         $name = $_POST['name'];
         $url = $_POST['url'];
         $sql = "UPDATE $table SET name = '$name', url = '$url' WHERE id = $id";
-        $query = mysql_query($sql);
+        $query = mysqli_query($sql);
         if($query) {
             echo 'Successfully edited item.';
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Something went wrong: ' . mysqli_error();
         }
     }
     
@@ -120,11 +120,11 @@
     function remove_item_finish($table) {
         $id = $_POST['id'];
         $sql = "DELETE FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
+        $query = mysqli_query($sql);
         if($query) {
             echo 'Sucessfully deleted item.';
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Something went wrong: ' . mysqli_error();
         }
     }
     

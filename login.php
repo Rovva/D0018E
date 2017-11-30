@@ -1,5 +1,5 @@
 <?php
-include 'serverside/functions.php';
+include 'ServerSide/functions.php';
 sec_session_start();
 if(login_check() == !true){ ?>
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ if(login_check() == !true){ ?>
         
            <p class="mainbody_text">
            <div class="loginbox">
-		      <form action="serverSide/process_login.php" method="post" name="login_form">
+		      <form action="ServerSide/process_login.php" method="post" name="login_form">
             <label for="inputEmail">Email</label>
             <input type="text" id="email" name="email"placeholder="Email">
             <label for="inputPassword">Password</label>

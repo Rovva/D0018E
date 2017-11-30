@@ -14,6 +14,8 @@
     $conn = mysql_connect($dbhost, $dbusr, $dbpass);
     mysql_select_db($dbname);
     mysql_set_charset("utf8", $conn);
+    
+    
     if (!$conn) { 
         die('Could not establish a connection: ' . mysql_error());
     }
