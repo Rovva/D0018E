@@ -1,3 +1,7 @@
+<?php
+include 'serverside/functions.php';
+sec_session_start();
+if(login_check() == true){ ?>
 <!DOCTYPE html>
 <html>
 <title>User Page</title>
@@ -19,17 +23,14 @@
     </div>
     
 	<div class="mainbody">
-    
         <div class="mainborders">
-        
            <p class="mainbody_text">
-           
-	   </p>
-        
+            <?php
+            
+            ?>
+           </p>
         </div>
-    
 	</div>
-	
 	<div class="footer">
 		<p class="copyright_text"> Christoffer Rova & Simon Herbertsson &copy; 2017</p>
 	</div>
@@ -38,3 +39,8 @@
 
 </body>
 </html>
+<?php } else {
+header("Location: ./login.php");;
+}
+
+;?>
