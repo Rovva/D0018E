@@ -1,5 +1,7 @@
 <?php
-
+    include 'ServerSide/functions.php';
+    include 'ServerSide/db_connect.php';
+    sec_session_start();
     $category = "d0018e_categories";
     $orders = "d0018e_orders";
     $products = "d0018e_products";
@@ -71,7 +73,27 @@
                 <a href="register.html">Register</a>
               </div>
             </div>
-        
+                    <div class="shopping_cart">
+              <?php
+              if(login_check() == true){
+                $user_id = $_SESSION['user_id'];
+              $cart_id = $_SESSION['cart_id'];
+              $quantity1=0;
+              if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
+                $select_stmt->bind_param('s', $cart_id);
+                $select_stmt->execute();
+                $select_stmt->store_result();
+                $select_stmt->bind_result($quantity);
+                while($select_stmt->fetch()){
+                $quantity1=$quantity1+$quantity;
+                }
+                echo $quantity1 . ' items in the shopping basket';
+              }
+            }else{
+              echo 'Log in to use shopping cart';
+            }
+            ?>
+            </div>
         </div>        
     </div>
     
@@ -101,7 +123,7 @@
                                           <div class="product_available">' . $row['stock'] . ' in stock</div>
                                           <div class="product_id">Product number. ' . $row['id'] . '</div>
                                       </div>
-                                      <div class="product_price">' . $row['cost'] . ':-&nbsp;<input type="button" class="product_buy" value="Buy"></div>
+                                      <div class="product_price">' . $row['cost'] . ':-&nbsp;<button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div>
                                   </div>
                               </form>';
                     }
