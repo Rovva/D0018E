@@ -191,6 +191,12 @@ div.footer {
     background-color: #505380;
 }
 
+div.shopping_cart{
+    float:right;
+    position:relative;
+    display:inline-block;
+    background-color: #FFFFFF;
+}
 p.copyright_text {
     font-size: 12px;
     text-align: center;
