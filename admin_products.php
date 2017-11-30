@@ -254,11 +254,12 @@
         $id = $_POST['id'];
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
+        $category_name = $_POST['category']
         $shortdesc = $_POST['shortdesc'];
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
-        $sql = "UPDATE $table SET name = '$name', manufacturer = '$manufacturer', shortDesc = '$shortdesc', 
+        $sql = "UPDATE $table SET name = '$name', manufacturer = '$manufacturer', category = '$category_name', shortDesc = '$shortdesc', 
             longDesc = '$longdesc', cost = '$cost', stock = '$stock' WHERE id = $id";
         $query = mysql_query($sql);
         if($query) {
