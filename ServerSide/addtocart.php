@@ -6,7 +6,10 @@ if(login_check() == true){
 		$val=$_POST['btnValue'];//$_REQUEST['data'];
 		$user_id = $_SESSION['user_id'];
 		$mysqli = new mysqli("localhost", "root", "", "skola");
-		echo $val;
+  if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+  }
 		if($select_stmt = $mysqli->prepare("SELECT id, cost FROM d0018e_products WHERE id = ? LIMIT 1")){
 			$select_stmt->bind_param('s', $val);
 			$select_stmt->execute();

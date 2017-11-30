@@ -68,9 +68,9 @@
             
             
             <div class="dropdown">
-              <button class="dropbtn"><a class="dropbtn" href="login.html">Login</a></button>
+              <button class="dropbtn"><a class="dropbtn" href="login.php">Login</a></button>
               <div class="dropdown-content">
-                <a href="register.html">Register</a>
+                <a href="register.php">Register</a>
               </div>
             </div>
                     <div class="shopping_cart">

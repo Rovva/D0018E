@@ -2,6 +2,10 @@
 function login_check() {
    // Check if all session variables are set
   $mysqli = new mysqli("localhost", "skola", "skola", "skola");
+    if (mysqli_connect_errno()) {
+    printf("Connect failed: %s\n", mysqli_connect_error());
+    exit();
+  }
    if(isset($_SESSION['user_id'], $_SESSION['email'], $_SESSION['login_string'])) {
      $user_id = $_SESSION['user_id'];
      $login_string = $_SESSION['login_string'];
