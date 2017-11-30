@@ -130,6 +130,8 @@
     
     function add_item($table) {
         $sql = "SELECT id, name FROM $table";
+        $sql2 = "SELECT id, name FROM d0018e_categories";
+        $query2 = mysql_query($sql2);
         $query = mysql_query($sql);
         if(!$query) {
             echo 'Something went wrong: ' . mysql_error();
@@ -147,6 +149,13 @@
                     
                     echo '
                     </select><br>
+                    <select name="category">';
+                    
+                    while($row = mysql_fetch_array($query2)) {
+                        echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                    }
+                    echo '
+                    </select>
                     Short description:<br>
                     <textarea name="shortdesc" rows="4" cols="50"></textarea><br>
                     Long description:<br>
@@ -162,12 +171,13 @@
     function add_item_finish($table) {
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
+        $category_name = $_POST['category'];
         $shortdesc = $_POST['shortdesc'];
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
-        $sql = "INSERT INTO $table (name, manufacturer, shortDesc, longDesc, cost, stock) VALUES ('$name', '$manufacturer',
-            '$shortdesc', '$longdesc', '$cost', '$stock')";
+        $sql = "INSERT INTO $table (name, manufacturer, category, shortDesc, longDesc, cost, stock) VALUES ('$name', '$manufacturer',
+           '$category_name' ,'$shortdesc', '$longdesc', '$cost', '$stock')";
         $query = mysql_query($sql);
         if($query) {
             echo 'Item has been added';
@@ -179,6 +189,8 @@
     function edit_item($table, $table2) {
         $id = $_POST['id'];
         $sql = "SELECT id, name FROM $table2";
+        $sql2 = "SELECT id, name FROM d0018e_categories";
+        $query2 = mysql_query($sql2);
         $query = mysql_query($sql);
         
         if(!$query) {
@@ -187,6 +199,10 @@
         
         while($row = mysql_fetch_array($query)) {
             $manufacturer[$row['name']] = $row['id'];
+        }
+        
+        while($row = mysql_fetch_array($query2)) {
+            $categories[$row['name']] = $row['id'];
         }
         
         $sql = "SELECT * FROM $table WHERE id = $id";
@@ -215,6 +231,17 @@
                     
                     echo '
                     </select><br>
+                    <select name="category">';
+                    
+                    foreach($categories as $cat_name => $cat_id) {
+                        if($cat_id == $row['category']) {
+                            echo '                      <option selected value="' . $cat_id . '">' . $cat_name . '</option>';
+                        } else {
+                            echo '                      <option value="' . $cat_id . '">' . $cat_name . '</option>';
+                        }
+                    }
+                    echo '
+                    </select>
                     Short description: <textarea name="shortdesc" rows="4" cols="50">' . $row['shortDesc'] . '</textarea><br>
                     Long description: <textarea name="longdesc" rows="4" cols="50">' . $row['longDesc'] . '</textarea><br>
                     Cost: <input type="text" name="cost" value="' . $row['cost'] . '"><br>
