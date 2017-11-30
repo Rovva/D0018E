@@ -149,13 +149,13 @@
                     
                     echo '
                     </select><br>
-                    <select name="category">';
+                    Category: <select name="category">';
                     
                     while($row = mysql_fetch_array($query2)) {
                         echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
                     }
                     echo '
-                    </select>
+                    </select><br>
                     Short description:<br>
                     <textarea name="shortdesc" rows="4" cols="50"></textarea><br>
                     Long description:<br>
@@ -231,7 +231,7 @@
                     
                     echo '
                     </select><br>
-                    <select name="category">';
+                    Category: <select name="category">';
                     
                     foreach($categories as $cat_name => $cat_id) {
                         if($cat_id == $row['category']) {
@@ -241,7 +241,7 @@
                         }
                     }
                     echo '
-                    </select>
+                    </select><br>
                     Short description: <textarea name="shortdesc" rows="4" cols="50">' . $row['shortDesc'] . '</textarea><br>
                     Long description: <textarea name="longdesc" rows="4" cols="50">' . $row['longDesc'] . '</textarea><br>
                     Cost: <input type="text" name="cost" value="' . $row['cost'] . '"><br>
@@ -254,7 +254,7 @@
         $id = $_POST['id'];
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
-        $category_name = $_POST['category']
+        $category_name = $_POST['category'];
         $shortdesc = $_POST['shortdesc'];
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
