@@ -6,17 +6,13 @@
     
     $manufacturer = "d0018e_manufacturers";
     
-    $dbhost = "localhost";
-    $dbname = "skola";
-    $dbusr = "skola";
-    $dbpass = "skola";
-    global $conn;
-    $conn = mysql_connect($dbhost, $dbusr, $dbpass);
-    mysql_select_db($dbname);
-    mysql_set_charset("utf8", $conn);
-    if (!$conn) { 
-        die('Could not establish a connection: ' . mysql_error());
+    $mysqli = new mysqli("localhost", "skola", "skola", "skola");
+    if (mysqli_connect_errno()) {
+        printf("Connect failed: %s\n", mysqli_connect_error());
+        exit();
     }
+    
+    $mysqli->set_charset("utf8");
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,13 +38,13 @@
               <button class="dropbtn">Categories</button>
               <div class="dropdown-content">
                 <?php
-                $sql = "SELECT * FROM $category";
-                            $out = mysql_query($sql, $conn);
-                            if(!$out) { die('Could not fetch any data: ' . mysql_error()); }
-
-                            while ($row = mysql_fetch_array($out)) {
-                                echo '<a href="browse.php?cat='.$row['id'].'">'.$row['name'].'</a>';
-                            }
+                $stmt = $mysqli->prepare("SELECT * FROM $category");
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                while ($row = $result->fetch_assoc()) {
+                    echo '<a href="browse.php?cat='.$row['id'].'">'.$row['name'].'</a>';
+                }
                 ?>
               </div>
             </div>

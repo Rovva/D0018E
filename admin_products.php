@@ -1,26 +1,7 @@
 <?php
-    $category = "d0018e_categories";
-    $orders = "d0018e_orders";
-    $products = "d0018e_products";
-    $carts = "d0018e_carts";
-    
-    $manufacturer = "d0018e_manufacturers";
-    
-    $dbhost = "localhost";
-    $dbname = "skola";
-    $dbusr = "skola";
-    $dbpass = "skola";
-    global $conn;
-    $conn = mysql_connect($dbhost, $dbusr, $dbpass);
-    mysql_select_db($dbname);
-    mysql_set_charset("utf8", $conn);
-    
-    
-    if (!$conn) { 
-        die('Could not establish a connection: ' . mysql_error());
-    }
-        
-    function list_items($table, $table2) {
+    include("admin_db.php");
+   
+    function list_items($table, $table2, $mysqli) {
         
         echo '
             <table style="width: 100%;">
@@ -35,18 +16,16 @@
                     <th style="text-align: left; width: 150px;"></th>
                     <th style="text-align: left;"></th>
                 </tr>';
-                        
-        $sql = "SELECT $table.id, $table2.name AS manufacturername, $table.name, 
+        echo 'preparing';
+        $stmt = $mysqli->prepare("SELECT $table.id, $table2.name AS manufacturername, $table.name, 
         $table.cost, $table.stock, $table.manufacturer 
         FROM $table 
-        LEFT JOIN $table2 ON $table.manufacturer = $table2.id";
-                    
-        $query = mysql_query($sql);
-        if(!$query) {
-            echo 'Something went wrong: ' . mysql_error();
-        }
-        while($row = mysql_fetch_array($query)) {
-            echo '                <tr>
+        LEFT JOIN $table2 ON $table.manufacturer = $table2.id");
+        
+        if($stmt->execute()) {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                echo '                <tr>
                     <form action="admin_products.php" method="post">
                         <input type="hidden" name="id" value="' . $row['id'] . '">
                         <th style="text-align: left;">' . $row['id'] . '</th>
@@ -60,8 +39,9 @@
                         <th style="text-align: left;"><input type="submit" name="remove" value="Remove product"></th>
                     </form>
                 </tr>';
+            }
         }
-        
+        $stmt->close();
         echo '
                 <tr style="height: 20px;">
                     <th></th>
@@ -89,15 +69,12 @@
     }
     
     
-    function view_item($table, $table2) {
+    function view_item($table, $table2, $mysqli) {
         $id = $_POST['id'];
-        $sql = "SELECT *, $table.name AS prod_name, $table2.name AS man_name FROM $table 
-            LEFT JOIN $table2 ON $table.manufacturer = $table2.id WHERE $table.id = $id";
-        $query = mysql_query($sql);
-        
-        if(!$query) {
-            echo 'Something went wrong: ' . mysql_error();
-        }
+        $sql = "";
+        $stmt = $mysqli->prepare("SELECT *, $table.name AS prod_name, $table2.name AS man_name FROM $table 
+            LEFT JOIN $table2 ON $table.manufacturer = $table2.id WHERE $table.id = $id");
+        $stmt->execute();
         
         echo '<table>
                 <tr>
@@ -111,8 +88,12 @@
                 </tr>
                 ';
         
-        while($row = mysql_fetch_array($query)) {
-            echo '<tr>
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                echo '<tr>
                     <th>' . $row['id'] . '</th>
                     <th>' . $row['man_name'] . '</th>
                     <th>' . $row['prod_name'] . '</th>
@@ -121,40 +102,50 @@
                     <th>' . $row['cost'] . '</th>
                     <th>' . $row['stock'] . '</th>
                 </tr>';
+            }
         }
+        
+        $stmt->close();
         
         echo '</table>';
         
         
     }
     
-    function add_item($table) {
-        $sql = "SELECT id, name FROM $table";
-        $sql2 = "SELECT id, name FROM d0018e_categories";
-        $query2 = mysql_query($sql2);
-        $query = mysql_query($sql);
-        if(!$query) {
-            echo 'Something went wrong: ' . mysql_error();
-        }
-        echo '                <form action="admin_products.php" method="post">
+    function add_item($table, $mysqli) {
+        $stmt = $mysqli->prepare("SELECT id, name FROM $table");
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            echo '                <form action="admin_products.php" method="post">
                     Name:<br>
                     <input type="text" name="name"><br>
                     Manufacturer:<br>
                     <select name="manufacturer">
                     ';
+            while($row = $result->fetch_assoc()) {
+                echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+            }
                     
-                    while($row = mysql_fetch_array($query)) {
-                        echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                    }
-                    
-                    echo '
+            echo '
                     </select><br>
                     Category: <select name="category">';
-                    
-                    while($row = mysql_fetch_array($query2)) {
-                        echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
-                    }
-                    echo '
+        }
+        $stmt->close();
+        
+        $stmt = $mysqli->prepare("SELECT id, name FROM d0018e_categories");
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+            }
+            echo '
                     </select><br>
                     Short description:<br>
                     <textarea name="shortdesc" rows="4" cols="50"></textarea><br>
@@ -166,9 +157,11 @@
                     <input type="text" name="stock"><br>
                     <input type="submit" name="add_finish" value="Add item">
                     </form>';
+        }
+        $stmt->close();
     }
     
-    function add_item_finish($table) {
+    function add_item_finish($table, $mysqli) {
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
         $category_name = $_POST['category'];
@@ -176,44 +169,56 @@
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
-        $sql = "INSERT INTO $table (name, manufacturer, category, shortDesc, longDesc, cost, stock) VALUES ('$name', '$manufacturer',
-           '$category_name' ,'$shortdesc', '$longdesc', '$cost', '$stock')";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Item has been added';
+        
+        $stmt = $mysqli->prepare("INSERT INTO $table (name, manufacturer, category, shortDesc, longDesc, cost, stock) VALUES (?, ?,
+           ? ,?, ?, ?, ?)");
+        $stmt->bind_param("ssissii", $name, $manufacturer, $category_name, $shortdesc, $longdesc, $cost, $stock);
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Item has been added.';
         }
+        $stmt->close();
     }
     
-    function edit_item($table, $table2) {
+    function edit_item($table, $table2, $mysqli) {
         $id = $_POST['id'];
-        $sql = "SELECT id, name FROM $table2";
-        $sql2 = "SELECT id, name FROM d0018e_categories";
-        $query2 = mysql_query($sql2);
-        $query = mysql_query($sql);
         
-        if(!$query) {
-            echo 'Something went wrong: ' . mysql_error();
+        $stmt = $mysqli->prepare("SELECT id, name FROM $table2");
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                $manufacturer[$row['name']] = $row['id'];
+            }
         }
+        $stmt->close();
         
-        while($row = mysql_fetch_array($query)) {
-            $manufacturer[$row['name']] = $row['id'];
+        $stmt = $mysqli->prepare("SELECT id, name FROM d0018e_categories");
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                $categories[$row['name']] = $row['id'];
+            }
         }
+        $stmt->close();
         
-        while($row = mysql_fetch_array($query2)) {
-            $categories[$row['name']] = $row['id'];
-        }
-        
-        $sql = "SELECT * FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
-        
-        if(!$query) {
-            echo 'Something went wrong: ' . mysql_error();
-        }
-        
-        $row = mysql_fetch_array($query);
-        echo '                <form action="admin_products.php" method="post">
+        $stmt = $mysqli->prepare("SELECT * FROM $table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            echo '                <form action="admin_products.php" method="post">
                     <input type="hidden" name="id" value="' . $row['id'] . '">
                     Name: <input type="text" name="name" value="' . $row['name'] . '"><br>
                     Manufacturer: <select name="manufacturer">
@@ -248,9 +253,11 @@
                     Stock: <input type="text" name="stock" value="' . $row['stock'] . '"><br>
                     <input type="submit" name="edit_finish" value="Save data">
                     </form>';
+        }
+        $stmt->close();
     }
     
-    function edit_item_finish($table) {
+    function edit_item_finish($table, $mysqli) {
         $id = $_POST['id'];
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
@@ -259,14 +266,19 @@
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
-        $sql = "UPDATE $table SET name = '$name', manufacturer = '$manufacturer', category = '$category_name', shortDesc = '$shortdesc', 
-            longDesc = '$longdesc', cost = '$cost', stock = '$stock' WHERE id = $id";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Successfully edited item.';
+            
+        $stmt = $mysqli->prepare("UPDATE $table SET name = ?, manufacturer = ?, category = ?, shortDesc = ?, 
+            longDesc = ?, cost = ?, stock = ? WHERE id = ?");
+        $stmt->bind_param("ssissiii", $name, $manufacturer, $category, 
+            $shortdesc, $longdesc, $cost, $stock, $id);
+        
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Sucessfully edited item.';
         }
+        $stmt->close();
     }
     
     function remove_item() {
@@ -277,34 +289,47 @@
                     </form>';
     }
     
-    function remove_item_finish($table) {
+    function remove_item_finish($table, $mysqli) {
         $id = $_POST['id'];
-        $sql = "DELETE FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Sucessfully deleted item.';
+        
+        $stmt = $mysqli->prepare("DELETE FROM $table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Sucessfully deleted item.';
         }
+        $stmt->close();
     }
     
-    function select_function($table, $table2) {
-        if($_POST['view']) {
-            view_item($table, $table2);
-        } else if($_POST['add']) {
-            add_item($table2);
-        } else if($_POST['edit']) {
-            edit_item($table, $table2);
-        } else if($_POST['remove']) {
+    function select_function($table, $table2, $mysqli) {
+        $view = isset($_POST['view']);
+        $add = isset($_POST['add']);
+        $edit = isset($_POST['edit']);
+        $remove = isset($_POST['remove']);
+        $add_finish = isset($_POST['add_finish']);
+        $edit_finish = isset($_POST['edit_finish']);
+        $remove_finish = isset($_POST['remove_finish']);
+        
+        if($view) {
+            view_item($table, $table2, $mysqli);
+        } else if($add) {
+            add_item($table2, $mysqli);
+        } else if($edit) {
+            edit_item($table, $table2, $mysqli);
+        } else if($remove) {
             remove_item();
-        } else if($_POST['add_finish']) {
-            add_item_finish($table);
-        } else if($_POST['edit_finish']) {
-            edit_item_finish($table);
-        } else if($_POST['remove_finish']){
-            remove_item_finish($table);
+        } else if($add_finish) {
+            add_item_finish($table, $mysqli);
+        } else if($edit_finish) {
+            edit_item_finish($table, $mysqli);
+        } else if($remove_finish){
+            remove_item_finish($table, $mysqli);
         } else {
-            list_items($table, $table2);
+            list_items($table, $table2, $mysqli);
         }
     }
     
@@ -339,7 +364,7 @@
            <p class="mainbody_text">
            
                 <?php
-                    select_function($products, $manufacturer);
+                    select_function($products, $manufacturer, $mysqli);
                 ?>
             
             

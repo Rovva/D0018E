@@ -1,24 +1,7 @@
 <?php
-    $category = "d0018e_categories";
-    $orders = "d0018e_orders";
-    $products = "d0018e_products";
-    $carts = "d0018e_carts";
+    include("admin_db.php");
     
-    $manufacturer = "d0018e_manufacturers";
-    
-    $dbhost = "localhost";
-    $dbname = "skola";
-    $dbusr = "skola";
-    $dbpass = "skola";
-    global $conn;
-    $conn = mysql_connect($dbhost, $dbusr, $dbpass);
-    mysql_select_db($dbname);
-    mysql_set_charset("utf8", $conn);
-    if (!$conn) { 
-        die('Could not establish a connection: ' . mysql_error());
-    }
-    
-    function list_items($table) {
+    function list_items($table, $mysqli) {
         echo '
             <table style="width: 100%;">
                 <tr>
@@ -30,10 +13,15 @@
                     <th style="text-align: left;"></th>
                 </tr>';
         
-        $sql = "SELECT * FROM $table";
-        $query = mysql_query($sql);
-        while($row = mysql_fetch_array($query)) {
-            echo '                <tr>
+        $stmt = $mysqli->prepare("SELECT * FROM $table");
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                echo '                <tr>
                     <form action="admin_manufacturers.php" method="post">
                         <input type="hidden" name="id" value="' . $row['id'] . '">
                         <th style="text-align: left;">' . $row['id'] . '</th>
@@ -44,8 +32,9 @@
                         <th style="text-align: left;"><input type="submit" name="remove" value="Remove manufacturer"></th>
                     </form>
                 </tr>';
+            }
         }
-        
+        $stmt->close();
         echo '
                 <tr>
                     <form action="admin_manufacturers.php" method="post">
@@ -68,45 +57,62 @@
                     </form>';
     }
     
-    function add_item_finish($table) {
+    function add_item_finish($table, $mysqli) {
         $name = $_POST['name'];
         $url = $_POST['url'];
-        $sql = "INSERT INTO $table (name, url) VALUES ('$name', '$url')";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Item has been added';
+        
+        $stmt = $mysqli->prepare("INSERT INTO $table (name, url) VALUES (?, ?)");
+        $stmt->bind_param("ss", $name, $url);
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went error: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Item has been added.';
         }
+        $stmt->close();
     }
     
-    function edit_item($table) {
+    function edit_item($table, $mysqli) {
         $id = $_POST['id'];
-        $sql = "SELECT id, name, url FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
-
-        while($row = mysql_fetch_array($query)) {
-        echo '                <form action="admin_manufacturers.php" method="post">
+        
+        $stmt = $mysqli->prepare("SELECT id, name, url FROM $table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+            echo '                <form action="admin_manufacturers.php" method="post">
                     <input type="hidden" name="id" value="' . $row['id'] . '">
                     Name: <input type="text" name="name" value="' . $row['name'] . '"><br>
-                    URL: <input type="text" name="num" value="' . $row['url'] . '"><br>
+                    URL: <input type="text" name="url" value="' . $row['url'] . '"><br>
                     <input type="submit" name="edit_finish" value="Save data">
                     </form>';
+            }
         }
+        $stmt->close();
+        
         
     }
     
-    function edit_item_finish($table) {
+    function edit_item_finish($table, $mysqli) {
         $id = $_POST['id'];
         $name = $_POST['name'];
         $url = $_POST['url'];
-        $sql = "UPDATE $table SET name = '$name', url = '$url' WHERE id = $id";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Successfully edited item.';
+        
+        $stmt = $mysqli->prepare("UPDATE $table SET name = ?, url = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $name, $url, $id);
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Successfully edited item.';
         }
+        $stmt->close();
     }
     
     function remove_item() {
@@ -117,32 +123,44 @@
                     </form>';
     }
     
-    function remove_item_finish($table) {
+    function remove_item_finish($table, $mysqli) {
         $id = $_POST['id'];
-        $sql = "DELETE FROM $table WHERE id = $id";
-        $query = mysql_query($sql);
-        if($query) {
-            echo 'Sucessfully deleted item.';
+        
+        $stmt = $mysqli->prepare("DELETE FROM $table WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
         } else {
-            echo 'Something went wrong: ' . mysql_error();
+            echo 'Sucessfully deleted item.';
         }
+        $stmt->close();
     }
     
-    function select_function($table) {
-        if($_POST['add']) {
+    function select_function($table, $mysqli) {
+        $view = isset($_POST['view']);
+        $add = isset($_POST['add']);
+        $edit = isset($_POST['edit']);
+        $remove = isset($_POST['remove']);
+        $add_finish = isset($_POST['add_finish']);
+        $edit_finish = isset($_POST['edit_finish']);
+        $remove_finish = isset($_POST['remove_finish']);
+        
+        if($add) {
             add_item();
-        } else if($_POST['edit']) {
-            edit_item($table);
-        } else if($_POST['remove']) {
+        } else if($edit) {
+            edit_item($table, $mysqli);
+        } else if($remove) {
             remove_item($table);
-        } else if($_POST['add_finish']) {
-            add_item_finish($table);
-        } else if($_POST['edit_finish']) {
-            edit_item_finish($table);
-        } else if($_POST['remove_finish']){
-            remove_item_finish($table);
+        } else if($add_finish) {
+            add_item_finish($table, $mysqli);
+        } else if($edit_finish) {
+            edit_item_finish($table, $mysqli);
+        } else if($remove_finish){
+            remove_item_finish($table, $mysqli);
         } else {
-            list_items($table);
+            list_items($table, $mysqli);
         }
     }
     
@@ -178,7 +196,7 @@
            <p class="mainbody_text">
            
                 <?php
-                    select_function($manufacturer);
+                    select_function($manufacturer, $mysqli);
                 ?>
             
             
