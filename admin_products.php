@@ -16,7 +16,6 @@
                     <th style="text-align: left; width: 150px;"></th>
                     <th style="text-align: left;"></th>
                 </tr>';
-        echo 'preparing';
         $stmt = $mysqli->prepare("SELECT $table.id, $table2.name AS manufacturername, $table.name, 
         $table.cost, $table.stock, $table.manufacturer 
         FROM $table 
@@ -71,7 +70,6 @@
     
     function view_item($table, $table2, $mysqli) {
         $id = $_POST['id'];
-        $sql = "";
         $stmt = $mysqli->prepare("SELECT *, $table.name AS prod_name, $table2.name AS man_name FROM $table 
             LEFT JOIN $table2 ON $table.manufacturer = $table2.id WHERE $table.id = $id");
         $stmt->execute();
@@ -170,7 +168,8 @@
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
         
-        $stmt = $mysqli->prepare("INSERT INTO $table (name, manufacturer, category, shortDesc, longDesc, cost, stock) VALUES (?, ?,
+        $stmt = $mysqli->prepare("INSERT INTO $table (name, manufacturer, 
+        category, shortDesc, longDesc, cost, stock) VALUES (?, ?,
            ? ,?, ?, ?, ?)");
         $stmt->bind_param("ssissii", $name, $manufacturer, $category_name, $shortdesc, $longdesc, $cost, $stock);
         $stmt->execute();

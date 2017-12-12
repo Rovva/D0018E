@@ -13,5 +13,6 @@
     $products = "d0018e_products";
     $carts = "d0018e_carts";
     $manufacturer = "d0018e_manufacturers";
+    $users = "d0018e_users";
     
 ?>
