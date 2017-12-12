@@ -14,5 +14,5 @@
     $carts = "d0018e_carts";
     $manufacturer = "d0018e_manufacturers";
     $users = "d0018e_users";
-    
+    $images = "d0018e_images";
 ?>
