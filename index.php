@@ -3,7 +3,8 @@
     $orders = "d0018e_orders";
     $products = "d0018e_products";
     $carts = "d0018e_carts";
-    
+    include 'ServerSide/functions.php';
+    sec_session_start();
     $manufacturer = "d0018e_manufacturers";
     
     $mysqli = new mysqli("localhost", "skola", "skola", "skola");

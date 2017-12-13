@@ -3,7 +3,6 @@ include 'functions.php';
 sec_session_start(); 
  
 if(isset($_POST['email'], $_POST['password'])) { 
-   echo 'hello';
    $email = $_POST['email'];
    $password = $_POST['password']; 
    if(login($email, $password) == true) {
@@ -12,7 +11,7 @@ if(isset($_POST['email'], $_POST['password'])) {
       exit();
    } else {
       // Login failed
-     header("Location: ../?error=1");
+     header("Location: ../login.php?error=1");
 exit();
    }
 } else { 

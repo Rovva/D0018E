@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<?php
+	if(isset($_GET['exists'])){
+		echo 'User already exists';
+	}else if(isset($_GET['success'])){
+		echo 'User registered';
+	}else if (isset($_GET['registrationfailed'])){
+		echo 'Something went wrong';
+	}
+?>
 <html>
 	<form action="ServerSide/register.php" method="post" name="registration_form">
 		<label for="inputEmail">Email</label>

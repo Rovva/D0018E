@@ -1,12 +1,11 @@
 <?php
     include 'ServerSide/functions.php';
     include 'ServerSide/db_connect.php';
-    sec_session_start();
     $category = "d0018e_categories";
     $orders = "d0018e_orders";
     $products = "d0018e_products";
     $carts = "d0018e_carts";
-
+sec_session_start();
     $manufacturer = "d0018e_manufacturers";
 
     $mysqli = new mysqli("localhost", "skola", "skola", "skola");
@@ -73,22 +72,25 @@
               <?php
               if(login_check() == true){
                 $user_id = $_SESSION['user_id'];
-              $cart_id = $_SESSION['cart_id'];
-              $quantity1=0;
-              if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
-                $select_stmt->bind_param('s', $cart_id);
-                $select_stmt->execute();
-                $select_stmt->store_result();
-                $select_stmt->bind_result($quantity);
-                while($select_stmt->fetch()){
-                $quantity1=$quantity1+$quantity;
+                if(isset($_SESSION['cart_id'])){
+                  $cart_id = $_SESSION['cart_id'];
+                $quantity1=0;
+                if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
+                  $select_stmt->bind_param('s', $cart_id);
+                  $select_stmt->execute();
+                  $select_stmt->store_result();
+                  $select_stmt->bind_result($quantity);
+                  while($select_stmt->fetch()){
+                    $quantity1=$quantity1+$quantity;
+                  }
+                  echo $quantity1 . ' items in the shopping basket';
                 }
-                echo $quantity1 . ' items in the shopping basket';
+                }
+                
+              }else{
+                echo 'Log in to use shopping cart';
               }
-            }else{
-              echo 'Log in to use shopping cart';
-            }
-            ?>
+              ?>
             </div>
         </div>        
     </div>
@@ -129,7 +131,7 @@
                             $filename = '<img src="' . $img_name . '" class="thumb">';
                         }
                     }
-                    echo '      <form action="addtocart.php">
+                    echo '      <form action="ServerSide/addtocart.php">
                                   <div class="product_box">
                                       <div class="product_img">' . $filename . '</div>
                                       <div class="product_text">

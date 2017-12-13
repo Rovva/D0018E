@@ -1,5 +1,6 @@
 <?php
 include 'ServerSide/functions.php';
+
 sec_session_start();
 if(login_check() == !true){ ?>
 <!DOCTYPE html>
@@ -63,9 +64,7 @@ if(login_check() == !true){ ?>
               </form>
            </div>
 	       </p>
-        
         </div>
-    
 	</div>
 	
 	<div class="footer">

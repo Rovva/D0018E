@@ -1,3 +1,7 @@
+<?php
+include 'ServerSide/functions.php';
+sec_session_start();
+?>
 <!DOCTYPE html>
 <html>
 <title>User Page</title>
@@ -38,3 +42,6 @@
 
 </body>
 </html>
+<?php
+echo $_SESSION['email'];
+?>
