@@ -3,6 +3,13 @@
    
     function list_items($table, $table2, $mysqli) {
         
+        $stmt = $mysqli->prepare("SELECT * FROM d0018e_images");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while($row = $result->fetch_assoc()) {
+            $images[$row['filename']] = $row['id'];
+        }
+        
         echo '
             <table style="width: 100%;">
                 <tr>
@@ -11,6 +18,7 @@
                     <th style="text-align: left; width: 150px;">Name</th>
                     <th style="text-align: left; width: 50px;">Cost</th>
                     <th style="text-align: left; width: 50px;">Stock</th>
+                    <th style="text-align: left;>Image</th>
                     <th style="width: 20px;"></th>
                     <th style="text-align: left; width: 150px;"></th>
                     <th style="text-align: left; width: 150px;"></th>
@@ -20,6 +28,8 @@
         $table.cost, $table.stock, $table.manufacturer 
         FROM $table 
         LEFT JOIN $table2 ON $table.manufacturer = $table2.id");
+        
+        
         
         if($stmt->execute()) {
             $result = $stmt->get_result();
@@ -32,6 +42,19 @@
                         <th style="text-align: left;">' . $row['name'] . '</th>
                         <th style="text-align: left;">' . $row['cost'] . ':-</th>
                         <th style="text-align: left;">' . $row['stock'] . '</th>
+                        <th>';
+                        
+                        foreach($images as $img_name => $imd_id) {
+                            if(!$row['image']) {
+                                echo 'No image';
+                            } else {
+                                if($img_id == $row['image']) {
+                                    echo '<a target="_blank" href="' . $img_name . '">Link</a>';
+                                }
+                            }
+                        }
+                        
+                echo '  </th>
                         <th></th>
                         <th style="text-align: left;"><input type="submit" name="view" value="View product"></th>
                         <th style="text-align: left;"><input type="submit" name="edit" value="Edit product"></th>
@@ -131,7 +154,6 @@
                     </select><br>
                     Category: <select name="category">';
         }
-        $stmt->close();
         
         $stmt = $mysqli->prepare("SELECT id, name FROM d0018e_categories");
         $stmt->execute();
@@ -144,8 +166,28 @@
                 echo '                      <option value="' . $row['id'] . '">' . $row['name'] . '</option>';
             }
             echo '
-                    </select><br>
-                    Short description:<br>
+                    </select><br>';
+        }
+        
+        $stmt = $mysqli->prepare("SELECT id, imagename FROM d0018e_images");
+        $stmt->execute();
+        
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            echo '
+                    Image:<br>
+                    <select name="imagename">
+                        <option value="">No image</option>';
+            while($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row['id'] . '">' . $row['imagename'] . '</option>';
+            }
+            echo '
+                    </select><br>';
+        }
+        
+            echo '        Short description:<br>
                     <textarea name="shortdesc" rows="4" cols="50"></textarea><br>
                     Long description:<br>
                     <textarea name="longdesc" rows="4" cols="50"></textarea><br>
@@ -155,7 +197,6 @@
                     <input type="text" name="stock"><br>
                     <input type="submit" name="add_finish" value="Add item">
                     </form>';
-        }
         $stmt->close();
     }
     
@@ -163,15 +204,16 @@
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
         $category_name = $_POST['category'];
+        $imagename = $_POST['imagename'];
         $shortdesc = $_POST['shortdesc'];
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
         
         $stmt = $mysqli->prepare("INSERT INTO $table (name, manufacturer, 
-        category, shortDesc, longDesc, cost, stock) VALUES (?, ?,
+        category, shortDesc, longDesc, cost, stock, image) VALUES (?, ?,
            ? ,?, ?, ?, ?)");
-        $stmt->bind_param("ssissii", $name, $manufacturer, $category_name, $shortdesc, $longdesc, $cost, $stock);
+        $stmt->bind_param("ssissiii", $name, $manufacturer, $category_name, $shortdesc, $longdesc, $cost, $stock, $imagename);
         $stmt->execute();
         if(!$stmt) {
             echo 'Something went wrong: ' . $mysqli->error;
@@ -207,7 +249,17 @@
                 $categories[$row['name']] = $row['id'];
             }
         }
-        $stmt->close();
+        
+        $stmt = $mysqli->prepare("SELECT id, imagename FROM d0018e_images");
+        $stmt->execute();
+        if(!$stmt) {
+            echo 'Something went wrong: ' . $mysqli->error;
+        } else {
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                $images[$row['imagename']] = $row['id'];
+            }
+        }
         
         $stmt = $mysqli->prepare("SELECT * FROM $table WHERE id = ?");
         $stmt->bind_param("i", $id);
@@ -246,8 +298,23 @@
                     }
                     echo '
                     </select><br>
-                    Short description: <textarea name="shortdesc" rows="4" cols="50">' . $row['shortDesc'] . '</textarea><br>
-                    Long description: <textarea name="longdesc" rows="4" cols="50">' . $row['longDesc'] . '</textarea><br>
+                    Image: <select name="imagename">
+                                <option value="">No image</option>';
+                    
+                    foreach($images as $img_name => $img_id) {
+                        if($img_id == $row['image']) {
+                            echo '<option selected value="' . $img_id . '">' . $img_name . '</option>';
+                        } else {
+                            echo '<option value="' . $img_id . '">' . $img_name . '</option>';
+                        }
+                    }
+                    
+                    echo '
+                    </select><br>
+                    Short description:<br>
+                    <textarea name="shortdesc" rows="4" cols="50">' . $row['shortDesc'] . '</textarea><br>
+                    Long description:<br>
+                    <textarea name="longdesc" rows="4" cols="50">' . $row['longDesc'] . '</textarea><br>
                     Cost: <input type="text" name="cost" value="' . $row['cost'] . '"><br>
                     Stock: <input type="text" name="stock" value="' . $row['stock'] . '"><br>
                     <input type="submit" name="edit_finish" value="Save data">
@@ -261,15 +328,16 @@
         $name = $_POST['name'];
         $manufacturer = $_POST['manufacturer'];
         $category_name = $_POST['category'];
+        $imagename = $_POST['imagename'];
         $shortdesc = $_POST['shortdesc'];
         $longdesc = $_POST['longdesc'];
         $cost = $_POST['cost'];
         $stock = $_POST['stock'];
             
         $stmt = $mysqli->prepare("UPDATE $table SET name = ?, manufacturer = ?, category = ?, shortDesc = ?, 
-            longDesc = ?, cost = ?, stock = ? WHERE id = ?");
-        $stmt->bind_param("ssissiii", $name, $manufacturer, $category, 
-            $shortdesc, $longdesc, $cost, $stock, $id);
+            longDesc = ?, cost = ?, stock = ?, image = ? WHERE id = ?");
+        $stmt->bind_param("ssissiiii", $name, $manufacturer, $category_name, 
+            $shortdesc, $longdesc, $cost, $stock, $imagename, $id);
         
         $stmt->execute();
         if(!$stmt) {

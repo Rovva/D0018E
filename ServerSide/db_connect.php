@@ -1,8 +1,8 @@
 <?php
 
 define("HOST", "localhost"); // The host you want to connect to.
-define("USER", "root"); // The database username.
-define("PASSWORD", ""); // The database password. 
+define("USER", "skola"); // The database username.
+define("PASSWORD", "skola"); // The database password. 
 define("DATABASE", "skola"); // The database name.
  
 $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);

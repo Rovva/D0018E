@@ -102,8 +102,16 @@
        <?php
             $get = $_GET['cat'];
             
+            $stmt = $mysqli->prepare("SELECT * FROM d0018e_images");
+            $stmt->execute();
+            
+            $result = $stmt->get_result();
+            while($row = $result->fetch_assoc()) {
+                $images[$row['filename']] = $row['id'];
+            }
+            
             $stmt = $mysqli->prepare("SELECT $products.id, $manufacturer.name AS manufacturername, $products.name, 
-            $products.shortdesc, $products.cost, $products.stock, $products.manufacturer 
+            $products.shortdesc, $products.cost, $products.stock, $products.manufacturer, $products.image 
             FROM $products 
             LEFT JOIN $manufacturer ON $products.manufacturer = $manufacturer.id WHERE category = ?");
             $stmt->bind_param("i", $get);
@@ -114,9 +122,16 @@
             } else {
                 $result = $stmt->get_result();
                 while ($row = $result->fetch_assoc()) {
+                    
+                    $filename = "";
+                    foreach($images as $img_name => $img_id) {
+                        if($img_id == $row['image']) {
+                            $filename = '<img src="' . $img_name . '" class="thumb">';
+                        }
+                    }
                     echo '      <form action="addtocart.php">
                                   <div class="product_box">
-                                      <div class="product_img"><img src="img/mouse1.jpg" class="thumb"></div>
+                                      <div class="product_img">' . $filename . '</div>
                                       <div class="product_text">
                                           <div class="product_header"><a class="product_link" href="product.php?id=' . $row['id'] . '">' . $row['manufacturername'] . ' - ' . $row['name'] . '</a></div>
                                           <div class="product_desc">' . $row['shortdesc'] . '</div>
