@@ -25,7 +25,7 @@
                     <th style="text-align: left;"></th>
                 </tr>';
         $stmt = $mysqli->prepare("SELECT $table.id, $table2.name AS manufacturername, $table.name, 
-        $table.cost, $table.stock, $table.manufacturer 
+        $table.cost, $table.stock, $table.manufacturer, $table.image 
         FROM $table 
         LEFT JOIN $table2 ON $table.manufacturer = $table2.id");
         
@@ -34,6 +34,7 @@
         if($stmt->execute()) {
             $result = $stmt->get_result();
             while($row = $result->fetch_assoc()) {
+
                 echo '                <tr>
                     <form action="admin_products.php" method="post">
                         <input type="hidden" name="id" value="' . $row['id'] . '">
@@ -44,9 +45,9 @@
                         <th style="text-align: left;">' . $row['stock'] . '</th>
                         <th>';
                         
-                        foreach($images as $img_name => $imd_id) {
+                        foreach($images as $img_name => $img_id) {
                             if(!$row['image']) {
-                                echo 'No image';
+                                //echo 'No image';
                             } else {
                                 if($img_id == $row['image']) {
                                     echo '<a target="_blank" href="' . $img_name . '">Link</a>';

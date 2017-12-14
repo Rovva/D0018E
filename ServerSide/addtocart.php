@@ -5,7 +5,7 @@ if(login_check() == true){
 	//if(isset($_POST['action'])){
 		$val=$_GET['btnValue'];//$_REQUEST['data'];
 		$user_id = $_SESSION['user_id'];
-		$mysqli = new mysqli("localhost", "root", "", "skola");
+		$mysqli = new mysqli("localhost", "skola", "skola", "skola");
   if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
@@ -16,7 +16,8 @@ if(login_check() == true){
 			$select_stmt->store_result();
 			$select_stmt->bind_result($prod_id, $prod_cost);
 			$select_stmt->fetch();
-		}//select product
+		} else {
+        }//select product
 		if ($stmt_prod = $mysqli->prepare("SELECT id FROM d0018e_carts WHERE user_id = ? LIMIT 1")){
 			$stmt_prod->bind_param('s', $user_id);
 			$stmt_prod->execute();
@@ -38,11 +39,13 @@ if(login_check() == true){
 							$stmt_cart_details_prod_update->store_result();
 						}
 					}else{
-						if($stmt_cart_details = $mysqli->prepare("INSERT INTO d0018e_cart_details (cart, prod, quantity) VALUES (?,?,?)")){
 							$number1=1;
-							$stmt_cart_details->bind_param('sss', $cart_id, $prod_id, $number1);
-							echo $cart_id . $prod_id . $number1;
+							$stmt_cart_details->bind_param('iii', $cart_id, $prod_id, $number1);
+							echo $cart_id . $prod_id . $number1 . $user_id;
 							$stmt_cart_details->execute();
+                            if(!$stmt_cart_details) {
+                                echo 'Something went wrong: ' . $mysqli->error;
+                            }
 					}
 				}
 
