@@ -1,0 +1,73 @@
+
+            <div class="dropdown">
+              <button class="firstdropbtn"><a class="firstdropbtn" href="index.php">Home</a></button>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn">Categories</button>
+              <div class="dropdown-content">
+                <?php
+                $stmt = $mysqli->prepare("SELECT * FROM $category");
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                while ($row = $result->fetch_assoc()) {
+                    echo '<a href="browse.php?cat='.$row['id'].'">'.$row['name'].'</a>';
+                }
+                ?>
+              </div>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="about.php">About ous</a></button>
+            </div>
+            
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="contact.php">Contact</a></button>
+            </div>
+            <?php
+                if(login_check()) {
+                    echo '
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="user_page.php">My account</a></button>
+              <div class="dropdown-content">
+                <a href="logout.php">Logout</a>
+              </div>
+            </div>';
+                } else {
+                    echo '
+            <div class="dropdown">
+              <button class="dropbtn"><a class="dropbtn" href="login.php">Login</a></button>
+              <div class="dropdown-content">
+                <a href="register.php">Register</a>
+              </div>
+            </div>';
+                }
+            ?>
+            
+<?php 
+    echo '<div class="shopping_cart">';
+    if(login_check() == true){
+        $user_id = $_SESSION['user_id'];
+        if(isset($_SESSION['cart_id'])){
+            $cart_id = $_SESSION['cart_id'];
+            $quantity1=0;
+            // Maybe changed the following code to count rows in the table instead of plus/minus a column
+            if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
+                $select_stmt->bind_param('s', $cart_id);
+                $select_stmt->execute();
+                $select_stmt->store_result();
+                $select_stmt->bind_result($quantity);
+                while($select_stmt->fetch()){
+                    $quantity1=$quantity1+$quantity;
+                }
+                echo $quantity1 . ' items in the shopping basket';
+            }
+        }
+                
+    } else {
+        echo 'Log in to use shopping cart';
+    }
+    echo '</div>';
+?>
+        
