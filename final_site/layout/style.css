@@ -204,8 +204,10 @@ div.shopping_cart {
     float:right;
     position:relative;
     display:inline-block;
-    margin-right: 10px;
-    margin-top: 8px;
+    margin-right: 28px;
+    margin-top: 10px;
+    font-family: Arial;
+    font-size: 14px;
     
 }
 

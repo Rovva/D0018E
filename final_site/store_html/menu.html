@@ -17,14 +17,41 @@
                 ?>
               </div>
             </div>
-            
+            <?php
+                $id = $_SESSION['user_id'];
+                $stmt = $mysqli->prepare("SELECT permission FROM $users WHERE id = ?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $stmt->store_result();
+                
+                if($stmt->num_rows() == 1) {
+                    $stmt->bind_result($permission);
+                    $stmt->fetch();
+                    if($permission == 1) {
+                        echo '
+            <div class="dropdown">
+              <button class="dropbtn">Manage site</button>
+              <div class="dropdown-content">
+                <a href="admin_users.php">Users</a>
+                <a href="admin_categories.php">Categories</a>
+                <a href="admin_manufacturers.php">Manufacturers</a>
+                <a href="admin_products.php">Products</a>
+                <a href="admin_images.php">Images</a>
+              </div>
+            </div>';
+                    } else {
+                        echo '
             <div class="dropdown">
               <button class="dropbtn"><a class="dropbtn" href="about.php">About ous</a></button>
             </div>
             
             <div class="dropdown">
               <button class="dropbtn"><a class="dropbtn" href="contact.php">Contact</a></button>
-            </div>
+            </div>';
+                    }
+                }
+                
+            ?>
             <?php
                 if(login_check()) {
                     echo '
@@ -66,7 +93,7 @@
         }
                 
     } else {
-        echo 'Log in to use shopping cart';
+        echo 'Login to use shopping cart';
     }
     echo '</div>';
 ?>

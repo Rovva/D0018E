@@ -1,42 +1,12 @@
-<!DOCTYPE html>
-<html>
-<title>Adminpage</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="dropdown.css">
-<body>
+<?php
 
-<div class="main">
-
-	<div class="banner">
-	</div>
-	
-    <div class="navigationbar">
+    include("db.php");
     
-        <div class="navigationbar_dropdowns">
-            
-            <?php
-                include("admin_menu.html");
-            ?>
-            
-        </div>        
-    </div>
+    include("store_html/top.html");
+    include("store_html/menu.html");
+    include("store_html/middle.html");
+    select_function($images, $mysqli);
+    echo 'Welcome to the adminpage!';
+    include("store_html/bottom.html");
     
-	<div class="mainbody">
-    
-        <div class="mainborders">
-        
-           <p class="mainbody_text">Welcome admin! Here you can manage your site!
-	   </p>
-        
-        </div>
-    
-	</div>
-	
-	<div class="footer">
-		<p class="copyright_text"> Christoffer Rova & Simon Herbertsson &copy; 2017</p>
-	</div>
-
-</div>
-
-</body>
-</html>
+?>

@@ -1,5 +1,5 @@
 <?php
-    include("admin_db.php");
+    include("db.php");
     
     function list_items($table, $mysqli) {
         echo '
@@ -164,9 +164,9 @@
         }
     }
     
-    include("admin_html/admin_upper.html");
-    include("admin_html/admin_menu.html");
-    include("admin_html/admin_middle.html");
+    include("store_html/top.html");
+    include("store_html/menu.html");
+    include("store_html/middle.html");
     select_function($manufacturer, $mysqli);
-    include("admin_html/admin_bottom.html");
+    include("store_html/bottom.html");
 ?>
