@@ -131,11 +131,11 @@ div.product_img {
 div.productdetail_box {
    	margin: auto;
 	width: 95%;
-    height: 400px;
+    height: 200px;
 }
 
 div.productdetail_img{
-    height: 400px;
+    height: 170px;
     margin-right:  20px;
     float: left;
 }
@@ -147,7 +147,7 @@ div.productdetail_header {
 }
 
 div.productdetail_desc {
-    height: 110px;
+    height: 130px;
     width: 550px;
     float: left;
     clear: right;
@@ -161,7 +161,8 @@ div.productdetail_rating {
 }
 
 div.productdetail_reviews {
-    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 div.productdetail_stock {

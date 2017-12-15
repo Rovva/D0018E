@@ -32,6 +32,7 @@
                         $filename = '<img width="210px" src="' . $img_name . '">';
                     }
                 }
+                //$rating_stmt = $mysqli->prepare("SELECT ")
                 echo '
                     <form action="addtocart.php">
                         <div class="productdetail_box">
@@ -39,7 +40,8 @@
                             <div class="productdetail_img">' . $filename . '<br>Rating:</div>
                             <div class="productdetail_desc">' . $row['longdesc'] . '</div>
                             <div class="productdetail_bottom"><div class="productdetail_stock">' . $row['stock'] . ' in stock</div><div class="productdetail_price">' . $row['cost'] . ':- <input type="button" value="Buy"></div></div>
-                        ';
+                        </div>
+                    </form>';
            }
            echo '<div class="productdetail_reviews">Reviews:</div>';
            
@@ -56,8 +58,7 @@
                }
            }
            
-           echo '</div>
-                    </form>';
+           echo '';
     include("store_html/bottom.html");
            
 ?>
