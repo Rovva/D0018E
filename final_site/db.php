@@ -18,5 +18,6 @@
     $manufacturer = "d0018e_manufacturers";
     $users = "d0018e_users";
     $images = "d0018e_images";
+    $reviews = "d0018e_reviews";
 
 ?>

@@ -26,6 +26,21 @@
             
            $result = $stmt->get_result();
            $product_id;
+           
+           $rating_stmt = $mysqli->prepare("SELECT * FROM d0018e_reviews WHERE product = ?");
+           $rating_stmt->bind_param("i", $get);
+           $rating_stmt->execute();
+           $rating_result = $rating_stmt->get_result();
+           $rating_points = 0;
+           $number = 1;
+           $final_rating_points = 0.0;
+           while($rating_row = $rating_result->fetch_assoc()) {
+                $number++;
+                $rating_points = $rating_points + $rating_row['rating'];
+           }
+           $final_rating_points = round(($rating_points/$number),2);
+           $rating_stmt->close();
+           
            while ($row = $result->fetch_assoc()) {
                 $product_id = $row['id'];
                 $filename = "";
@@ -39,7 +54,7 @@
                     <form action="ServerSide/addtocart.php">
                         <div class="productdetail_box">
                             <div class="productdetail_header">' . $row['manufacturername'] . ' - ' . $row['name'] . '</div>
-                            <div class="productdetail_img">' . $filename . '<br>Rating:</div>
+                            <div class="productdetail_img">' . $filename . '<br>Rating: ' . $final_rating_points . ' / 10 - <a href="user_review.php?review=' . $product_id . '">Review</a></div>
                             <div class="productdetail_desc">' . $row['longdesc'] . '</div>
                             <div class="productdetail_bottom"><div class="productdetail_stock">' . $row['stock'] . ' in stock</div><div class="productdetail_price">' . $row['cost'] . ':-
                             <button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div></div>
@@ -63,7 +78,7 @@
                 } else {
                     echo 'There is no reviews on this product.';
                 }
-               echo '<br><div class="productdetail_review_it"><a href="user_review.php?review=' . $row['id'] . '">Review this product!</a></div>';
+               echo '<br><div class="productdetail_review_it"></div>';
                echo '</div>';
            }
     include("store_html/bottom.html");

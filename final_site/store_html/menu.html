@@ -36,6 +36,7 @@
                 <a href="admin_categories.php">Categories</a>
                 <a href="admin_manufacturers.php">Manufacturers</a>
                 <a href="admin_products.php">Products</a>
+                <a href="admin_reviews.php">Reviews</a>
                 <a href="admin_images.php">Images</a>
               </div>
             </div>';
@@ -86,7 +87,7 @@
     echo '<div class="shopping_cart">';
     if(login_check() == true){
         $user_id = $_SESSION['user_id'];
-            $cart_id = $_SESSION['cart_id'];
+            $cart_id = isset($_SESSION['cart_id']);
             $quantity1=0;
             // Maybe changed the following code to count rows in the table instead of plus/minus a column
             if($select_stmt = $mysqli->prepare("SELECT quantity from d0018e_cart_details WHERE cart = ?")){
