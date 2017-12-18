@@ -49,7 +49,7 @@
         
         $result = $stmt->get_result();
         while($row = $result->fetch_assoc()) {
-        echo '                <form action="admin_categories.php" method="post">
+        echo '                <form action="admin_reviews.php" method="post">
                     <input type="hidden" name="id" value="' . $row['id'] . '">
                     Rating: <input type="text" name="rating" value="' . $row['rating'] . '"><br>
                     Review: <textarea name="review">' . $row['review'] . '</textarea><br>
@@ -78,7 +78,7 @@
     
     function remove_review($table, $mysqli) {
         echo'                 Are you sure you want to delete selected item?
-                    <form action="admin_categories.php" method="post">
+                    <form action="admin_reviews.php" method="post">
                     <input hidden="id" name="id" value="' . $_POST['id'] . '">
                     <input type="submit" name="remove_finish" value="Remove">
                     </form>';
