@@ -1,12 +1,5 @@
 <?php
-	if(isset($_GET['exists'])) {
-		echo 'User already exists';
-	} else if(isset($_GET['success'])) {
-		echo 'User registered';
-	} else if (isset($_GET['registrationfailed'])) {
-		echo 'Something went wrong';
-	}
-    
+
     
     include("db.php");
 
@@ -25,6 +18,16 @@
 			<input type="password" name="password" id="password" placeholder="Password"><br>
 		<button type="submit">Register</button><br>
 	</form>
+	<?php
+	if(isset($_GET['exists'])) {
+		echo 'User already exists';
+	} else if(isset($_GET['success'])) {
+		echo 'User registered';
+	} else if (isset($_GET['registrationfailed'])) {
+		echo 'Something went wrong';
+	}
+    
+	?>
 <?php
     include("store_html/bottom.html");
 ?>

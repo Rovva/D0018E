@@ -1,9 +1,13 @@
 <?php
 include 'functions.php';
+echo 'ok';
 sec_session_start();
+echo 'ok1';
+$cat = $_POST['catvalue'];
 if(login_check() == true){
 	//if(isset($_POST['action'])){
-		$val=$_GET['btnValue'];//$_REQUEST['data'];
+		$val=$_POST['btnValue'];//$_REQUEST['data'];
+		
 		$user_id = $_SESSION['user_id'];
 		$mysqli = new mysqli("localhost", "skola", "skola", "skola");
   if (mysqli_connect_errno()) {
@@ -37,16 +41,17 @@ if(login_check() == true){
 							$stmt_cart_details_prod_update->bind_param('ss',$quantity+1,$cart_details_id);
 							$stmt_cart_details_prod_update->execute();
 							$stmt_cart_details_prod_update->store_result();
+						header("Location: ../browse.php?cat=".$cat);
 						}
 					}else{
                     if($stmt_cart_details = $mysqli->prepare("INSERT INTO d0018e_cart_details (cart, prod, quantity) VALUES (?,?,?)")){
 							$number1=1;
 							$stmt_cart_details->bind_param('iii', $cart_id, $prod_id, $number1);
-							echo $cart_id . $prod_id . $number1 . $user_id;
 							$stmt_cart_details->execute();
                             if(!$stmt_cart_details) {
                                 echo 'Something went wrong: ' . $mysqli->error;
                             }
+						header("Location: ../browse.php?cat=".$cat);
 					}
 				}
 
@@ -70,6 +75,7 @@ if(login_check() == true){
 					if($stmt_cart_user = $mysqli->prepare("UPDATE d0018e_users SET cart_id = ? WHERE id = ?")){
 						$stmt_cart_user->bind_param('ss', $cart_id, $user_id);
 						$stmt_cart_user->execute();
+						header("Location: ../browse.php?cat=".$cat);
 					}
 				}//create cart details
 				
@@ -78,5 +84,8 @@ if(login_check() == true){
 	}//Post action isset
 //}else{
 	//return false;
+}else{
+	echo 'hello there';
+	header("Location: ../browse.php?cat=".$cat);
 }
 ?>

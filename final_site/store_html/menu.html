@@ -42,7 +42,7 @@
                             } else {
                             echo '
             <div class="dropdown">
-              <button class="dropbtn"><a class="dropbtn" href="about.php">About ous</a></button>
+              <button class="dropbtn"><a class="dropbtn" href="about.php">About us</a></button>
             </div>
             
             <div class="dropdown">
@@ -86,7 +86,6 @@
     echo '<div class="shopping_cart">';
     if(login_check() == true){
         $user_id = $_SESSION['user_id'];
-        if(isset($_SESSION['cart_id'])){
             $cart_id = $_SESSION['cart_id'];
             $quantity1=0;
             // Maybe changed the following code to count rows in the table instead of plus/minus a column
@@ -98,9 +97,8 @@
                 while($select_stmt->fetch()){
                     $quantity1=$quantity1+$quantity;
                 }
-                echo $quantity1 . ' items in the shopping basket';
+                echo $quantity1 . ' items in the shopping basket ' . '<a href="./transactionPage.php" role="button">View</a>' ;
             }
-        }
                 
     } else {
         echo 'Login to use shopping cart';

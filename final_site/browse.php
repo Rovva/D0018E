@@ -37,7 +37,7 @@
                             }
                         }
                     }
-                    echo '      <form action="ServerSide/addtocart.php">
+                    echo '      <form method="post" action="ServerSide/addtocart.php">
                                   <div class="product_box">
                                       <div class="product_img">' . $filename . '</div>
                                       <div class="product_text">
@@ -46,11 +46,12 @@
                                           <div class="product_available">' . $row['stock'] . ' in stock</div>
                                           <div class="product_id">Product number. ' . $row['id'] . '</div>
                                       </div>
-                                      <div class="product_price">' . $row['cost'] . ':-&nbsp;<button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div>
+                                      <div class="product_price">' . $row['cost'] . ':-&nbsp;<input hidden="id" name="catvalue" value='.$get.'><button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div>
                                   </div>
                               </form>';
                     }
             }
             $stmt->close();
             include("store_html/bottom.html");
+
 ?>

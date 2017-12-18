@@ -60,17 +60,18 @@ function login($email,$password){
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
   }
-  if($stmt = $mysqli->prepare("SELECT id, email, password FROM d0018e_users WHERE email = ? LIMIT 1")){
+  if($stmt = $mysqli->prepare("SELECT id, cart_id, email, password FROM d0018e_users WHERE email = ? LIMIT 1")){
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($user_id, $email, $db_password);
+    $stmt->bind_result($user_id,$cart_id, $email, $db_password);
     $stmt->fetch();
     if($db_password == $password) { // Check if the password in the database matches the password the user submitted. 
               // Password is correct!
    
                  $ip_address = $_SERVER['REMOTE_ADDR']; // Get the IP address of the user. 
                  $user_browser = $_SERVER['HTTP_USER_AGENT']; // Get the user-agent string of the user.
+                 $_SESSION['cart_id']= $cart_id;
                  $_SESSION['user_id'] = $user_id; 
                  $_SESSION['email'] = $email;
                  $_SESSION['login_string'] = hash('sha512', $password.$ip_address.$user_browser);

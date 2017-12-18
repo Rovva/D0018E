@@ -42,7 +42,6 @@ if(login_check() == true){
                     if($stmt_cart_details = $mysqli->prepare("INSERT INTO d0018e_cart_details (cart, prod, quantity) VALUES (?,?,?)")){
 							$number1=1;
 							$stmt_cart_details->bind_param('iii', $cart_id, $prod_id, $number1);
-							echo $cart_id . $prod_id . $number1 . $user_id;
 							$stmt_cart_details->execute();
                             if(!$stmt_cart_details) {
                                 echo 'Something went wrong: ' . $mysqli->error;
