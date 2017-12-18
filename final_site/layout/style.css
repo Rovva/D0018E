@@ -165,12 +165,30 @@ div.productdetail_reviews {
     margin-left: 20px;
 }
 
+div.productdetail_review_it {
+    float: left;
+    margin-top: 20px;
+}
+
 div.productdetail_stock {
     float: left;
 }
 
 div.productdetail_price {
     float: right;
+}
+
+div.review_email {
+    margin-top: 10px;
+    clear: left;
+}
+
+div.review_rating {
+    clear: left;
+}
+
+div.review_text {
+    clear: left;
 }
 
 div.loginbox {
