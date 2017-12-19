@@ -1,6 +1,7 @@
 <?php
 	include("db.php");
     include("store_html/top.html");
+    include("store_html/menu.html");
     include("store_html/middle.html");
     $stmt = $mysqli->prepare("SELECT * FROM d0018e_orders");
     echo $mysqli->error;
