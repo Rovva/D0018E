@@ -32,9 +32,9 @@ if(isset($_POST['completeOrder'])){
 	while ($row = $result->fetch_assoc()){
 		$dbCost=$dbCost+$row['quantity']*$row['cost'];
 	}
-	if($dbCost==$currentCost){
-		if($stmtorders = $mysqli->prepare("INSERT INTO d0018e_orders (user, status) VALUES (?,?)")){
-			$stmtorders->bind_param("ss",$_SESSION['user_id'],$nothing);
+	if($dbCost==$currentCost && $dbCost != 0){
+		if($stmtorders = $mysqli->prepare("INSERT INTO d0018e_orders (user, status, cost) VALUES (?,?,?)")){
+			$stmtorders->bind_param('sss',$_SESSION['user_id'],$nothing,$currentCost);
 			$stmtorders->execute();
 			$stmtorders->close();
 			$stmtselect = $mysqli->prepare("SELECT id from d0018e_orders WHERE user = ?");

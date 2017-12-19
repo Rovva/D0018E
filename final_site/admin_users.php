@@ -3,7 +3,6 @@
     include("db.php");
    
     function list_items($table, $mysqli) {
-    
         echo '
             <table style="width: 100%;">
                 <tr>

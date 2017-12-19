@@ -1,13 +1,10 @@
 <?php
 include 'functions.php';
-echo 'ok';
 sec_session_start();
-echo 'ok1';
 $cat = $_POST['catvalue'];
 if(login_check() == true){
 	//if(isset($_POST['action'])){
 		$val=$_POST['btnValue'];//$_REQUEST['data'];
-		
 		$user_id = $_SESSION['user_id'];
 		$mysqli = new mysqli("localhost", "skola", "skola", "skola");
   if (mysqli_connect_errno()) {
@@ -38,7 +35,8 @@ if(login_check() == true){
 					$stmt_cart_details_prod->fetch();
 					if($stmt_cart_details_prod->num_rows == 1){
 						if($stmt_cart_details_prod_update = $mysqli->prepare("UPDATE d0018e_cart_details SET quantity = ? WHERE id=?")){
-							$stmt_cart_details_prod_update->bind_param('ss',$quantity+1,$cart_details_id);
+							$quantity=$quantity+1;
+							$stmt_cart_details_prod_update->bind_param('ss',$quantity,$cart_details_id);
 							$stmt_cart_details_prod_update->execute();
 							$stmt_cart_details_prod_update->store_result();
 						header("Location: ../browse.php?cat=".$cat);
