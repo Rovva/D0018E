@@ -34,7 +34,8 @@ if(login_check()==true){
 				$quantity = $quantity - 1;
 				$stmt->bind_param('ss',$quantity,$id);
 				$stmt->execute();
-			}else{
+
+			}else if($quantity==0){
 				$stmtdelete = $mysqli->prepare("DELETE FROM d0018e_cart_details WHERE id=?");
 				$stmtdelete->bind_param('s',$id);
 				$stmtdelete->execute();

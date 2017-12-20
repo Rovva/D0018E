@@ -213,7 +213,7 @@
         
         $stmt = $mysqli->prepare("INSERT INTO $table (name, manufacturer, 
         category, shortDesc, longDesc, cost, stock, image) VALUES (?, ?,
-           ? ,?, ?, ?, ?)");
+           ? ,?, ?, ?, ?, ?)");
         $stmt->bind_param("ssissiii", $name, $manufacturer, $category_name, $shortdesc, $longdesc, $cost, $stock, $imagename);
         $stmt->execute();
         if(!$stmt) {
