@@ -59,8 +59,6 @@
     
     function add_item_finish($table, $mysqli) {
         $name = $_POST['name'];
-        $sql = "INSERT INTO $table (name) VALUES ('$name')";
-        $query = mysql_query($sql);
         
         $stmt = $mysqli->prepare("INSERT INTO $table (name) VALUES (?)");
         $stmt->bind_param("s", $name);

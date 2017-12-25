@@ -32,7 +32,7 @@
            $rating_stmt->execute();
            $rating_result = $rating_stmt->get_result();
            $rating_points = 0;
-           $number = 1;
+           $number = 0;
            $final_rating_points = 0.0;
            while($rating_row = $rating_result->fetch_assoc()) {
                 $number++;
@@ -62,7 +62,7 @@
                     </form>';
                 echo '<div class="productdetail_reviews">Reviews:<br>';
            
-                $rating_stmt = $mysqli->prepare("SELECT 'd0018e_reviews.rating' AS rating, d0018e_reviews.review AS review, 
+                $rating_stmt = $mysqli->prepare("SELECT d0018e_reviews.rating AS rating, d0018e_reviews.review AS review, 
                  d0018e_users.email AS user_email FROM d0018e_reviews LEFT JOIN d0018e_users ON
                  d0018e_reviews.user = d0018e_users.id WHERE product = ?");
                 echo $mysqli->error;
