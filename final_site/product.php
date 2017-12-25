@@ -51,13 +51,13 @@
                 }
                 
                 echo '
-                    <form action="ServerSide/addtocart.php">
+                    <form action="ServerSide/addtocart.php" method="post">
                         <div class="productdetail_box">
                             <div class="productdetail_header">' . $row['manufacturername'] . ' - ' . $row['name'] . '</div>
                             <div class="productdetail_img">' . $filename . '<br>Rating: ' . $final_rating_points . ' / 10 - <a href="user_review.php?review=' . $product_id . '">Review</a></div>
                             <div class="productdetail_desc">' . $row['longdesc'] . '</div>
                             <div class="productdetail_bottom"><div class="productdetail_stock">' . $row['stock'] . ' in stock</div><div class="productdetail_price">' . $row['cost'] . ':-
-                            <button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div></div>
+                            <input hidden="id" name="catvalue" value='.$get.'><button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div></div>
                         </div>
                     </form>';
                 echo '<div class="productdetail_reviews">Reviews:<br>';

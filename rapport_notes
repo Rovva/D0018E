@@ -1,0 +1,10 @@
+Skriv mer om kodstruktur
+Improve on key challenges
+Assumptions lägg till
+	saker som vi antar ska funja
+requirements lägg till
+	saker som ska ligga rätt
+User requirements is user cases
+
+use roles/actors is stories
+	as a x I want to y so that I can z
