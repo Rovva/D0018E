@@ -99,7 +99,7 @@
     }
     
     function view_order() {
-        
+        echo 'whereamI';
     }
     
     function change_password() {
@@ -121,6 +121,7 @@
             save_info($table, $mysqli);
         } else {
             list_info($table, $mysqli);
+            view_order($table,$mysqli);
         }
     }
     
