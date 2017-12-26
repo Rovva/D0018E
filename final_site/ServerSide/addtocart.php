@@ -1,4 +1,11 @@
 <?php
+//So, what this file does, is it checks if a cart exists
+//if it does, it tries to find if the product exists in cart
+//if it does, it adds to the products quantity in cart
+//if product does not exist in cart, it adds the product to cart
+//if there doesnt exist a cart, it creates a cart and does the above things
+//probably, you're gonna have to trust me on this one
+//this would probably be a lot simpler if it wasnt prodecural, but >>>php
 include 'functions.php';
 sec_session_start();
 $cat = $_POST['catvalue'];

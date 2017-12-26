@@ -16,12 +16,37 @@
     $stmt->close();
     echo "</tr>";
     echo "</tbody></table>";
-    //select_function($users, $mysqli);
     if(isset($_POST['approve'])){
     	$id=$_POST['id'];
-    	$stmt = $mysqli->prepare("UPDATE d0018e_orders SET status = 1 WHERE id = ?");
-    	$stmt->bind_param('s',$id);
-    	$stmt->execute();
+        $truebol = FALSE;
+    	//$stmt = $mysqli->prepare("UPDATE d0018e_orders SET status = 1 WHERE id = ?");
+    	//$stmt->bind_param('s',$id);
+    	//$stmt->execute();
+        $stmt = $mysqli->prepare("SELECT quantity, prod_id from d0018e_order_details where order_id = ?");
+        $stmt->bind_param('s',$id);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        $stmtcompare =  $mysqli->prepare("SELECT stock from d0018e_products where id=?");
+        while($row = $result->fetch_assoc()){
+            $stmtcompare->bind_param('s',$rows['prod_id']);
+            $stmtcompare->execute();
+            $stmtcompare->store_result();
+            $stmtcompare->bind_result($stock);
+            if($rows['quantity'] <= $stock){
+                $truebol=TRUE;
+            }else{
+                $truebol=FALSE;
+            }
+            $stmtcompare->close();
+        }
+        if($truebol){
+            $result->data_seek(0);
+            $stmtinsert = $mysqli->prepare("UPDATE d0018e_products SET stock = stock - ? where id = ?");
+            while($rows = $result->fetch_assoc()){
+                $stmtinsert->bind_param('ss',$rows['quantity'],$rows['prod_id']);
+            }
+        }
+
     }
     include("store_html/bottom.html");
 ?>

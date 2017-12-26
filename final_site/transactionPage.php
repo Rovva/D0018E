@@ -20,6 +20,7 @@ echo "</tbody></table>";
 $stmt->close();
 echo "<form action='checkOutPage.php' method='post'><button name='checkout'>CheckOut</button></form>";
 if(login_check()==true){
+	//If user wishes to reduce quantity of products
 	if(ISSET($_POST['minus'])){	
 		$id = $_POST['id'];
 			$stmtquantity = $mysqli->prepare("SELECT quantity FROM d0018e_cart_details WHERE id = ?");
@@ -34,14 +35,12 @@ if(login_check()==true){
 				$quantity = $quantity - 1;
 				$stmt->bind_param('ss',$quantity,$id);
 				$stmt->execute();
-
+				//If quantity of a product reaches 0, just delete it
 			}else if($quantity==0){
 				$stmtdelete = $mysqli->prepare("DELETE FROM d0018e_cart_details WHERE id=?");
 				$stmtdelete->bind_param('s',$id);
 				$stmtdelete->execute();
 			}
-
-
 	}else if(ISSET($_POST['plus'])){
 			$id = $_POST['id'];
 			$stmtquantity = $mysqli->prepare("SELECT quantity FROM d0018e_cart_details WHERE id = ?");
