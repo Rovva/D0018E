@@ -11,7 +11,7 @@
     echo "<thead><tr><th>User</th><th>Order_id</th><th>status</th></tr></thead>";
     echo "<tbody><tr>";
     while($row = $result->fetch_assoc()){
-    	echo "<tr><td>".$row['user']. "</td><td>".$row['id']."</td><td>".$row['status']."</td><td><form action='admin_orders.php' method='post'><input hidden='id' name='id' value=".$row['id']."><button name='approve' value=".$row['status'].">approve</button></form></td>";
+    	echo "<tr><td>".$row['user']. "</td><td>".$row['id']."</td><td>".$row['status']."</td><td>".$row['order_date']."</td><td><form action='admin_orders.php' method='post'><input hidden='id' name='id' value=".$row['id']."><button name='approve' value=".$row['status'].">approve</button></form></td>";
     }
     $stmt->close();
     echo "</tr>";
@@ -48,8 +48,9 @@
                 $stmtinsert->bind_param('ss',$rows['quantity'],$rows['prod_id']);
                 $stmtinsert->execute();
             }//changes the status of an order
-            $stmt1 = $mysqli->prepare("UPDATE d0018e_orders SET status = 1 WHERE id = ?");
-            $stmt1->bind_param('s',$id);
+            $date = date('Y-m-d H:i:s');
+            $stmt1 = $mysqli->prepare("UPDATE d0018e_orders SET status = 1, shipped_date = ? WHERE id = ?");
+            $stmt1->bind_param('ss',$date,$id);
             $stmt1->execute();
         }else{
             echo 'Product out of stock'

@@ -12,8 +12,7 @@
     	$stmt->store_result();
     	$stmt->bind_result($email, $fName, $sName, $address, $city, $postcode, $state, $country, $phone);
     	$stmt->fetch();
-        
-        echo '
+        echo '<div class="col-sm-4">
         <table>
             <tr>
                 <th colspan="2">Your personal information:</th>
@@ -40,18 +39,18 @@
             <tr>
                 <th colspan="2" style="text-align: center;"><a href="user_page.php?action=edit_info">Edit information</a></th>
             </tr>
-        </table>';
+        </table></div>';
     }
     
     function edit_info($table, $mysqli) {
         $id = $_SESSION['user_id'];
         
-        $stmt = $mysqli->prepare("SELECT email, fName, sName, address, city, postcode, state, country FROM $table WHERE id = ?");
+        $stmt = $mysqli->prepare("SELECT email, fName, sName, address, city, postcode, state, country,phone FROM $table WHERE id = ?");
         
         $stmt->bind_param("i", $id);
         $stmt->execute();
     	$stmt->store_result();
-    	$stmt->bind_result($email, $fName, $sName, $address, $city, $postcode, $state, $country);
+    	$stmt->bind_result($email, $fName, $sName, $address, $city, $postcode, $state, $country,$phone);
     	$stmt->fetch();
         
         echo '
@@ -98,8 +97,33 @@
         
     }
     
-    function view_order() {
-        echo 'whereamI';
+    function view_order($table,$mysqli) {
+        $stmt= $mysqli->prepare("SELECT id,status,order_date,shipped_date,cost from d0018e_orders WHERE user = ?");
+        $stmt->bind_param('s',$_SESSION['user_id']);
+        $stmt->execute();
+        $stmt->bind_result($id,$status,$order_date,$shipped_date,$cost);
+        $stmt->fetch();
+        echo '<div class="col-sm-4">
+        <table>
+        <thead>
+        <tr>
+        <th>Id</th>
+        <th>Status </th>
+        <th>Order_date </th>
+        <th>Shipped_date </th>
+        <th>Cost</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>'.$id.'</td>
+        <td>'.$status.'</td>
+        <td>'.$order_date.'</td>
+        <td>'.$shipped_date.'</td>
+        <td>'.$cost.'</td>
+        </tr>
+        </tbody>
+        </table>';
     }
     
     function change_password() {

@@ -38,8 +38,9 @@ if(isset($_POST['completeOrder'])){
 	//Check if the DB cost and the cost shown on the page is the same
 	if($dbCost==$currentCost && $dbCost != 0){
 		//Create an entry in order table
-		if($stmtorders = $mysqli->prepare("INSERT INTO d0018e_orders (user, status, cost) VALUES (?,?,?)")){
-			$stmtorders->bind_param('sss',$_SESSION['user_id'],$nothing,$currentCost);
+		$date = date('Y-m-d H:i:s');
+		if($stmtorders = $mysqli->prepare("INSERT INTO d0018e_orders (user, status, cost,order_date) VALUES (?,?,?,?)")){
+			$stmtorders->bind_param('sss',$_SESSION['user_id'],$nothing,$currentCost,$date);
 			$stmtorders->execute();
 			$stmtorders->close();
 			$stmtselect = $mysqli->prepare("SELECT id from d0018e_orders WHERE user = ?");
