@@ -53,7 +53,7 @@
             $stmt1->bind_param('ss',$date,$id);
             $stmt1->execute();
         }else{
-            echo 'Product out of stock'
+            echo 'Product out of stock';
         }
 
     }
