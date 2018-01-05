@@ -17,7 +17,11 @@
     echo "</tr>";
     echo "</tbody></table>";
     //Check if order has been approved already
-    if(isset($_POST['approve'])=='0'){
+    if(isset($_POST['approve'])){
+        echo "hah";
+        echo $_POST['approve'];
+        if($_POST['approve']==0){
+        echo "hoi";
     	$id=$_POST['id'];
         $truebol = FALSE;
         $stmt = $mysqli->prepare("SELECT quantity, prod_id from d0018e_order_details where order_id = ?");
@@ -41,6 +45,7 @@
             $stmtcompare->close();
         }//If there is enough in stock, this function will run
         if($truebol){
+            echo "ho";
             $result->data_seek(0);
             $stmtinsert = $mysqli->prepare("UPDATE d0018e_products SET stock = stock - ? where id = ?");
             //Updates the stock of a product
@@ -57,5 +62,6 @@
         }
 
     }
+}
     include("store_html/bottom.html");
 ?>

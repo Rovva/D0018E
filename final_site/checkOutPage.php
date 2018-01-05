@@ -40,7 +40,7 @@ if(isset($_POST['completeOrder'])){
 		//Create an entry in order table
 		$date = date('Y-m-d H:i:s');
 		if($stmtorders = $mysqli->prepare("INSERT INTO d0018e_orders (user, status, cost,order_date) VALUES (?,?,?,?)")){
-			$stmtorders->bind_param('sss',$_SESSION['user_id'],$nothing,$currentCost,$date);
+			$stmtorders->bind_param('ssss',$_SESSION['user_id'],$nothing,$currentCost,$date);
 			$stmtorders->execute();
 			$stmtorders->close();
 			$stmtselect = $mysqli->prepare("SELECT id from d0018e_orders WHERE user = ?");
