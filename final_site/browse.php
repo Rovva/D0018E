@@ -37,13 +37,18 @@
                             }
                         }
                     }
+                    if($row['stock'] <= 0) {
+                        $stock = "Out of stock";
+                    } else {
+                        $stock = $row['stock'] . " in stock";
+                    }
                     echo '      <form method="post" action="ServerSide/addtocart.php">
                                   <div class="product_box">
                                       <div class="product_img">' . $filename . '</div>
                                       <div class="product_text">
                                           <div class="product_header"><a class="product_link" href="product.php?id=' . $row['id'] . '">' . $row['manufacturername'] . ' - ' . $row['name'] . '</a></div>
                                           <div class="product_desc">' . $row['shortdesc'] . '</div>
-                                          <div class="product_available">' . $row['stock'] . ' in stock</div>
+                                          <div class="product_available">' . $stock . '</div>
                                           <div class="product_id">Product number. ' . $row['id'] . '</div>
                                       </div>
                                       <div class="product_price">' . $row['cost'] . ':-&nbsp;<input hidden="id" name="catvalue" value='.$get.'><button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div>

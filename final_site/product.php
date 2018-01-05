@@ -38,7 +38,11 @@
                 $number++;
                 $rating_points = $rating_points + $rating_row['rating'];
            }
-           $final_rating_points = round(($rating_points/$number),2);
+           if($rating_points) {
+                $final_rating_points = round(($rating_points/$number),2);
+           } else {
+                $final_rating_points = 0;
+           }
            $rating_stmt->close();
            
            while ($row = $result->fetch_assoc()) {
@@ -49,14 +53,18 @@
                         $filename = '<img width="210px" src="' . $img_name . '">';
                     }
                 }
-                
+                if($row['stock'] <= 0) {
+                    $stock = "Out of stock";
+                } else {
+                    $stock = $row['stock'] . " in stock";
+                }
                 echo '
                     <form action="ServerSide/addtocart.php" method="post">
                         <div class="productdetail_box">
                             <div class="productdetail_header">' . $row['manufacturername'] . ' - ' . $row['name'] . '</div>
                             <div class="productdetail_img">' . $filename . '<br>Rating: ' . $final_rating_points . ' / 10 - <a href="user_review.php?review=' . $product_id . '">Review</a></div>
                             <div class="productdetail_desc">' . $row['longdesc'] . '</div>
-                            <div class="productdetail_bottom"><div class="productdetail_stock">' . $row['stock'] . ' in stock</div><div class="productdetail_price">' . $row['cost'] . ':-
+                            <div class="productdetail_bottom"><div class="productdetail_stock">' . $stock . '</div><div class="productdetail_price">' . $row['cost'] . ':-
                             <input hidden="id" name="catvalue" value='.$get.'><button type="submit" name="btnValue" id="btnValue" class="product_buy" value='. $row['id'] .' >Buy</div></div>
                         </div>
                     </form>';
